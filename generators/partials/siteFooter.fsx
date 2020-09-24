@@ -4,17 +4,18 @@ open Html
 
 let siteFooter =
   footer [ Class "footer" ] [
-    section [ Class "container" ] [
-      p [] [
-        !! "© 2020 Gregor Beyerle · Powered by "
-        a [ Href "https://github.com/ionide/Fornax"
-            Target "_blank" ] [
-          !! "Fornax"
-        ]
-        !! " & "
-        a [ Href "https://github.com/luizdepra/hugo-coder"
-            Target "_blank" ] [
-          !! "Coder Theme"
+    div [ Class "container" ] [
+      div [ Class "columns" ] [
+        div [ Class "column is-offset-2 content" ] [
+          p [] [
+            !! "© 2020 Gregor Beyerle | "
+            a [ Href "/imprint" ] [ !! " Imprint " ]
+            !! " | Made with 🧡 and "
+            a [ Href "https://github.com/ionide/Fornax"
+                Target "_blank" ] [
+              !! "Fornax"
+            ]
+          ]
         ]
       ]
     ]

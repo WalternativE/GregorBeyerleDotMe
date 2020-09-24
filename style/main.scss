@@ -1,8 +1,80 @@
 @charset "utf-8";
-@import "../node_modules/bulma/bulma.sass";
-// @import "coder";
-// @import "coder-dark";
 
-// .menu-toggle-icon {
-//     line-height: 6rem;
-// }
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$french-blue: #0089F0;
+$carrot-orange: #F08B00;
+$carrot-orange-80p: rgba($carrot-orange, .8);
+$off-white: #EFE9F4;
+$off-white-80p: rgba($off-white, .8);
+$dark-violet: #23022E;
+$jungle-green: #171D1C;
+
+$footer-font-size: .5em;
+
+// bulma default overrides
+$primary: $carrot-orange;
+$info: $french-blue;
+
+$family-sans-serif: "Raleway", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$scheme-main: $jungle-green;
+$scheme-main-ter: $jungle-green;
+$scheme-main-bis: $dark-violet;
+$text: $off-white;
+$link: $carrot-orange;
+$link-hover: $carrot-orange-80p;
+
+// bulma component overrrides
+$body-background-color: $jungle-green;
+$footer-padding: 1.5rem 1.5rem 1.5rem;
+$navbar-background-color: $dark-violet;
+$navbar-burger-color: $carrot-orange;
+$navbar-breakpoint: 1px;
+
+@import "../node_modules/bulma/bulma.sass";
+
+$fa-font-path: "../webfonts";
+
+@import "../font_awesome_scss/fontawesome.scss";
+@import "../font_awesome_scss/solid.scss";
+@import "../font_awesome_scss/brands.scss";
+
+.landing-profile-pic {
+  max-height: 200px;
+  max-width: 200px;
+
+  @media (min-width: $tablet) {
+    max-height: 256px;
+    max-width: 256px;
+  }
+}
+
+.footer {
+  font-size: 0.8em;
+}
+
+.socials {
+  font-size: 1.5em;
+}
+
+.social-link {
+  color: $off-white-80p;
+  margin-right: 8px;
+}
+
+.landing-greeting {
+  font-size: 1em;
+  margin-bottom: .3em;
+  color: $off-white-80p;
+}
+
+.landing-whoami {
+  font-size: 2em;
+  margin-bottom: .3em;
+  line-height: 1.25em;
+}
+
+.focus-content {
+  margin-top: 4em;
+  margin-bottom: 3em;
+}

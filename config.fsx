@@ -24,8 +24,8 @@ let staticPredicate (projectRoot: string, page: string) =
      page.Contains ".sass-cache" ||
      page.Contains ".git" ||
      page.Contains ".ionide" ||
-     page.Contains ".scss" ||
      page.Contains "node_modules" ||
+     page.Contains ".scss" ||
      page.Contains ".config" ||
      page.Contains ".editorconfig" ||
      page.Contains "global.json" ||

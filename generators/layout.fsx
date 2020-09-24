@@ -75,10 +75,6 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
              Sizes "32x32"
              Href "/images/favicon.png" ]
       link [ Rel "stylesheet"
-             Href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-             Integrity "sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-             CrossOrigin "anonymous" ]
-      link [ Rel "stylesheet"
              Href "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
              Integrity "sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU="
              CrossOrigin "anonymous" ]
@@ -89,9 +85,7 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
     ]
     body [] [
       SiteHeader.siteHeader menuEntries
-      main [] [
-        section [ Class "container" ] bodyCnt
-      ]
+      main [] bodyCnt
       SiteFooter.siteFooter
       script [ Type "text/javascript"
                Src "scripts/main.js" ] []
@@ -107,6 +101,7 @@ let render (ctx: SiteContents) cnt =
   cnt
   |> HtmlElement.ToString
   |> fun n -> if disableLiveRefresh then n else injectWebsocketCode n
+  |> fun page -> "<!DOCTYPE html>\n" + page
 
 let published (post: Postloader.Post) =
   post.published
