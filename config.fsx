@@ -26,6 +26,11 @@ let staticPredicate (projectRoot: string, page: string) =
      page.Contains ".ionide" ||
      page.Contains ".scss" ||
      page.Contains "node_modules" ||
+     page.Contains ".config" ||
+     page.Contains ".editorconfig" ||
+     page.Contains "global.json" ||
+     page.Contains "package.json" ||
+     page.Contains "package-lock.json" ||
      ext = ".fsx")
     |> not
 
