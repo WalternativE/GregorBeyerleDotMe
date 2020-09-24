@@ -2,15 +2,23 @@
 
 open Html
 
-let siteHeader title menuEntries =
-    nav [Class "navigation"] [
-        section [Class "container"] [
-            a [Class "navigation-title"] [ !! title ]
-            input [Type "checkbox"; Id "menu-toggle" ]
-            label [ Class "menu-button float-right"; Custom ("for", "menu-toggle") ] [
-                i [ Class "fas fa-bars menu-toggle-icon"] []
-            ]
-            ul [ Class "navigation-list" ]
-                menuEntries
+let siteHeader menuEntries =
+    nav [ Class "navbar"
+          Role "navigation"
+          Custom("aria-label", "main navigation") ] [
+        div [ Class "navbar-brand" ] [
+            a [ Role "button"
+                Class "navbar-burger burger"
+                Custom ("aria-label", "menu")
+                Custom ("aria-expanded", "false")
+                Custom ("data-target", "blogNavbar")] [
+                    span [ Custom ("aria-hidden", "true") ] []
+                    span [ Custom ("aria-hidden", "true") ] []
+                    span [ Custom ("aria-hidden", "true") ] []
+                ]
+        ]
+        div [ Id "blogNavbar"
+              Class "navbar-menu" ] [
+            div [ Class "navbar-end" ] menuEntries
         ]
     ]

@@ -1,0 +1,25 @@
+{
+  "name": "gregorbeyerledotme",
+  "version": "1.0.0",
+  "description": "My personal blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WalternativE/GregorBeyerleDotMe.git"
+  },
+  "keywords": [
+    "Blog"
+  ],
+  "author": "Gregor Beyerle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WalternativE/GregorBeyerleDotMe/issues"
+  },
+  "homepage": "https://github.com/WalternativE/GregorBeyerleDotMe#readme",
+  "dependencies": {
+    "bulma": "^0.9.0"
+  }
+}

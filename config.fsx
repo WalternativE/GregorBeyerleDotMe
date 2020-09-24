@@ -25,6 +25,7 @@ let staticPredicate (projectRoot: string, page: string) =
      page.Contains ".git" ||
      page.Contains ".ionide" ||
      page.Contains ".scss" ||
+     page.Contains "node_modules" ||
      ext = ".fsx")
     |> not
 
@@ -38,6 +39,6 @@ let config = {
         {Script = "staticfile.fsx"; Trigger = OnFilePredicate staticPredicate; OutputFile = SameFileName }
         {Script = "index.fsx"; Trigger = Once; OutputFile = NewFileName "index.html" }
         {Script = "about.fsx"; Trigger = Once; OutputFile = NewFileName "about.html" }
-        {Script = "contact.fsx"; Trigger = Once; OutputFile = NewFileName "contact.html" }
+        {Script = "blog.fsx"; Trigger = Once; OutputFile = NewFileName "blog.html" }
     ]
 }

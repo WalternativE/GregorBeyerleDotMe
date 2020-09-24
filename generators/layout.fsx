@@ -32,7 +32,9 @@ let injectWebsocketCode (webpage:string) =
     let index = webpage.IndexOf head
     webpage.Insert ( (index + head.Length + 1),websocketScript)
 
-let layout (ctx : SiteContents) active bodyCnt =
+let layout (ctx : SiteContents) (active : string) bodyCnt =
+    printfn "Called with %s" active
+
     let pages = ctx.TryGetValues<Pageloader.Page> () |> Option.defaultValue Seq.empty
     let siteInfo =
       match ctx.TryGetValue<Globalloader.SiteInfo> () with
@@ -42,9 +44,11 @@ let layout (ctx : SiteContents) active bodyCnt =
     let menuEntries =
       pages
       |> Seq.map (fun p ->
-        li [ Class "navigation-item" ] [
-          a [ Class ""; Href p.link ] [ !! p.title ]
-        ])
+          let isActive = p.title = active
+          let navClasses = "navbar-item is-tab"
+          a [ Class (if isActive then navClasses + " is-active" else navClasses)
+              Href p.link ]
+            [ !! (p.title.ToUpper()) ])
       |> Seq.toList
 
     html [ Lang siteInfo.language ] [
@@ -61,12 +65,8 @@ let layout (ctx : SiteContents) active bodyCnt =
             link [Rel "icon"; Type "image/png"; Sizes "32x32"; Href "/images/favicon.png"]
             link [
               Rel "stylesheet"
-              Href "https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap"
-            ]
-            link [
-              Rel "stylesheet"
-              Href "https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-              Integrity "sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+              Href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+              Integrity "sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
               CrossOrigin "anonymous"
             ]
             link [
@@ -82,14 +82,13 @@ let layout (ctx : SiteContents) active bodyCnt =
               Media "screen"
             ]
         ]
-        body [Class "colorscheme-dark"] [
-          main [Class "wrapper"] [
-              SiteHeader.siteHeader siteInfo.title menuEntries
-
+        body [] [
+          SiteHeader.siteHeader menuEntries
+          main [] [
               div [ Class "content" ] bodyCnt
-
-              SiteFooter.siteFooter
           ]
+          SiteFooter.siteFooter
+          script [ Type "text/javascript"; Src "scripts/main.js" ] []
         ]
     ]
 
