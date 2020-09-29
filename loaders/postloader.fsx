@@ -134,7 +134,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
   System.IO.Directory.GetFiles postsPath
   |> Array.filter (fun n -> n.EndsWith ".md")
   |> Array.map loadFile
-  |> Array.iter (fun p -> siteContent.Add p)
+  |> Array.iter siteContent.Add
 
   siteContent.Add({ disableLiveRefresh = false })
   siteContent

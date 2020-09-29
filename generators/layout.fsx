@@ -75,20 +75,32 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
              Sizes "32x32"
              Href "/images/favicon.png" ]
       link [ Rel "stylesheet"
-             Href "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-             Integrity "sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU="
-             CrossOrigin "anonymous" ]
-      link [ Rel "stylesheet"
              Type "text/css"
              Href "/style/main.css"
              Media "screen" ]
+      link [ Rel "preload"
+             Href "/webfonts/raleway/raleway-v17-latin-ext_latin-regular.woff2"
+             Custom("as", "font")
+             Type "font/woff2"
+             CrossOrigin "anonymous" ]
+      link [ Rel "preload"
+             Href "/webfonts/font_awesome/fa-brands-400.woff2"
+             Custom("as", "font")
+             Type "font/woff2"
+             CrossOrigin "anonymous" ]
+      link [ Rel "preload"
+             Href "/webfonts/font_awesome/fa-solid-900.woff2"
+             Custom("as", "font")
+             Type "font/woff2"
+             CrossOrigin "anonymous" ]
+      script [ Defer true
+               Type "text/javascript"
+               Src "scripts/main.js" ] []
     ]
     body [] [
       SiteHeader.siteHeader menuEntries
       main [] bodyCnt
       SiteFooter.siteFooter
-      script [ Type "text/javascript"
-               Src "scripts/main.js" ] []
     ]
   ]
 

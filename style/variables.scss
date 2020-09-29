@@ -1,0 +1,33 @@
+$french-blue: #0089F0;
+$french-blue-80p: rgba(#0089F0, .8);
+$prussian-blue: #00233D;
+$prussian-blue-80p: rgba($prussian-blue, .8);
+$carrot-orange: #F08B00;
+$carrot-orange-80p: rgba($carrot-orange, .8);
+$off-white: #EFE9F4;
+$off-white-80p: rgba($off-white, .8);
+$dark-violet: #23022E;
+$jungle-green: #171D1C;
+
+$footer-font-size: .5em;
+
+$pin-radius: 100px;
+
+// bulma default overrides
+$primary: $carrot-orange;
+$info: $french-blue;
+
+$family-sans-serif: "Raleway", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$scheme-main: $jungle-green;
+$scheme-main-ter: $jungle-green;
+$scheme-main-bis: $dark-violet;
+$text: $off-white;
+$link: $carrot-orange;
+$link-hover: $carrot-orange-80p;
+
+// bulma component overrrides
+$body-background-color: $jungle-green;
+$footer-padding: 1.5rem 1.5rem 1.5rem;
+$navbar-background-color: $dark-violet;
+$navbar-burger-color: $carrot-orange;
+$navbar-breakpoint: 1px;
