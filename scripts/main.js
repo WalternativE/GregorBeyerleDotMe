@@ -1,13 +1,15 @@
 (function () {
   const profileImage = document.getElementById('profile-image');
 
-  profileImage.onmouseover = (_) => {
-    profileImage.setAttribute('src', '/images/profile_aha.jpg');
-  };
+  if (profileImage) {
+    profileImage.onmouseover = (_) => {
+      profileImage.setAttribute('src', '/images/profile_aha.jpg');
+    };
 
-  profileImage.onmouseleave = (_) => {
-    profileImage.setAttribute('src', '/images/profile_questioning.jpg');
-  };
+    profileImage.onmouseleave = (_) => {
+      profileImage.setAttribute('src', '/images/profile_questioning.jpg');
+    };
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);

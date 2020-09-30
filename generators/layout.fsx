@@ -33,8 +33,6 @@ let injectWebsocketCode (webpage: string) =
   webpage.Insert((index + head.Length + 1), websocketScript)
 
 let layout (ctx: SiteContents) (active: string) bodyCnt =
-  printfn "Called with %s" active
-
   let pages =
     ctx.TryGetValues<Pageloader.Page>()
     |> Option.defaultValue Seq.empty
@@ -46,6 +44,7 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
 
   let menuEntries =
     pages
+    |> Seq.filter (fun p -> p.isInTopNavigation)
     |> Seq.map (fun p ->
          let isActive = p.title = active
          let navClasses = "navbar-item is-tab"
