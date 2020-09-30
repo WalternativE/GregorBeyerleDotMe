@@ -21,7 +21,8 @@ let generate' (ctx: SiteContents) (_: string) =
                 div [ Class "columns is-vcentered" ] [
                   div [ Class "column is-narrow" ] [
                     figure [ Class "image landing-profile-pic" ] [
-                      img [ Src "/images/profile_questioning.jpg"
+                      img [ Id "profile-image"
+                            Src "/images/profile_questioning.jpg"
                             Alt "Photo of Gregor"
                             Class "is-rounded" ]
                     ]

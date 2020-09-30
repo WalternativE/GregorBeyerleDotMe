@@ -1,4 +1,14 @@
 (function () {
+  const profileImage = document.getElementById('profile-image');
+
+  profileImage.onmouseover = (_) => {
+    profileImage.setAttribute('src', '/images/profile_aha.jpg');
+  };
+
+  profileImage.onmouseleave = (_) => {
+    profileImage.setAttribute('src', '/images/profile_questioning.jpg');
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
@@ -16,7 +26,6 @@
           // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
           el.classList.toggle('is-active');
           $target.classList.toggle('is-active');
-
         });
       });
     }
