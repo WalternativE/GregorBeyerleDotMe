@@ -18,7 +18,16 @@ type Post =
 let contentDir = "posts"
 
 let markdownPipeline =
-  MarkdownPipelineBuilder().UsePipeTables().UseGridTables().Build()
+  MarkdownPipelineBuilder()
+    .UsePipeTables()
+    .UseGridTables()
+    .UseGenericAttributes()
+    .UseEmphasisExtras()
+    .UseListExtras()
+    .UseCitations()
+    .UseCustomContainers()
+    .UseFigures()
+    .Build()
 
 let isSeparator (input: string) = input.StartsWith "---"
 

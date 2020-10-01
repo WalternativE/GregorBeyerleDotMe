@@ -18,7 +18,7 @@ let postLayout (useSummary: bool) (post: Postloader.Post) =
         !!(sprintf "Published %s" (published post))
       ]
     ]
-    div [] [
+    div [ Class "content" ] [
       !!(if useSummary then post.summary else post.content)
     ]
   ]

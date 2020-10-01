@@ -4,7 +4,17 @@
 @import "./mixins.scss";
 @import "./variables.scss";
 
-@import "../node_modules/bulma/bulma.sass";
+// bulma imports
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/helpers/_all.sass";
+@import "../node_modules/bulma/sass/layout/_all.sass";
+@import "../node_modules/bulma/sass/grid/columns.sass";
+@import "../node_modules/bulma/sass/elements/container.sass";
+@import "../node_modules/bulma/sass/elements/image.sass";
+@import "../node_modules/bulma/sass/elements/table.sass";
+@import "../node_modules/bulma/sass/elements/content.sass";
+@import "../node_modules/bulma/sass/components/navbar.sass";
 
 @import "./font-awesome-config.scss";
 
@@ -167,4 +177,13 @@ footer {
   p {
     padding-top: 8px;
   }
+}
+
+article {
+  font-size: 1.2em;
+}
+
+.content figure {
+  margin-left: 0;
+  margin-right: 0;
 }

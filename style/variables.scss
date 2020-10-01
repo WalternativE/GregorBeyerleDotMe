@@ -8,6 +8,7 @@ $off-white: #EFE9F4;
 $off-white-80p: rgba($off-white, .8);
 $dark-violet: #23022E;
 $jungle-green: #171D1C;
+$eerie-black: #121716;
 
 $footer-font-size: .5em;
 
@@ -16,6 +17,12 @@ $pin-radius: 100px;
 // bulma default overrides
 $primary: $carrot-orange;
 $info: $french-blue;
+
+$tablet: 800px;
+
+$background: $eerie-black;
+$text-strong: $off-white;
+$text-light: $off-white-80p;
 
 $body-font-size: 1em;
 $family-sans-serif: "Raleway", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
