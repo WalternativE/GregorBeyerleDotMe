@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce bibendum neque eg
 
 <!--more-->
 
-## Emphasis
+## <a name="emphasis">Emphasis</a>
 
 Emphasis, aka italics, with *asterisks* or _underscores_.
 
@@ -20,7 +20,7 @@ Combined emphasis with **asterisks and _underscores_**.
 Strikethrough uses two tildes. ~~Scratch this.~~
 
 
-## Lists
+## <a name="lists">Lists</a>
 
 1. First ordered list item
 2. Another item
@@ -39,7 +39,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 - Or minuses
 + Or pluses
 
-## Links
+## <a name="links">Links</a>
 
 [I'm an inline-style link](https://www.google.com)
 
@@ -63,7 +63,7 @@ Some text to show that the reference links can follow later.
 [1]: http://slashdot.org
 [link text itself]: http://www.reddit.com
 
-## Images
+## <a name="images">Images</a>
 
 Here's our logo (hover to see the title text):
 
@@ -75,7 +75,7 @@ Reference-style:
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
 
-## Code and Syntax Highlighting
+## <a name="code-and-syntax-highlighting">Code and Syntax Highlighting</a>
 
 ```javascript
 var s = "JavaScript syntax highlighting";

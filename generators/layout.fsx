@@ -94,7 +94,7 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
              CrossOrigin "anonymous" ]
       script [ Defer true
                Type "text/javascript"
-               Src "scripts/main.js" ] []
+               Src "/scripts/main.js" ] []
     ]
     body [] [
       SiteHeader.siteHeader menuEntries

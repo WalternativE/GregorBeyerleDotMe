@@ -15,6 +15,7 @@
 @import "../node_modules/bulma/sass/elements/table.sass";
 @import "../node_modules/bulma/sass/elements/content.sass";
 @import "../node_modules/bulma/sass/components/navbar.sass";
+@import "../node_modules/bulma/sass/components/menu.sass";
 
 @import "./font-awesome-config.scss";
 
@@ -135,12 +136,12 @@ footer {
 }
 
 .about-paragraph {
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding-top: 12px;
 }
 
 .about-list {
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding-top: 4px;
   list-style: none;
 
@@ -180,10 +181,89 @@ footer {
 }
 
 article {
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 .content figure {
   margin-left: 0;
   margin-right: 0;
+}
+
+.bloglist-entry {
+  font-size: 1.2em;
+  margin-top: 24px;
+}
+
+.bloglist-entry:first {
+  margin-top: 0;
+}
+
+.bloglist-entry__subline {
+  font-size: 0.95em;
+  color: $off-white-80p;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.bloglist-entry__publish-date {
+  height: auto;
+  flex-grow: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.inline-divider {
+  height: auto;
+  display: inline-block;
+  flex-grow: 1;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  hr {
+    margin: 0;
+    margin-left: 12px;
+    padding: 0;
+    width: 100%;
+    border: none;
+    border-top: 2px dashed;
+    height: 1px;
+  }
+}
+
+.content {
+  h1, h2, h3, h4, h5, h6 {
+    a {
+      color: $off-white;
+    }
+  }
+}
+
+.side-navigation {
+  position: fixed;
+  top: 6rem;
+  right: 0;
+}
+
+aside.menu {
+  @media(max-width: $tablet) {
+    display: none;
+  }
+
+  max-width: 214px;
+  text-align: right;
+  color: $off-white-80p;
+  font-size: 0.9em;
+}
+
+.icon-navigation {
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+}
+
+.icon-navigation__link {
+  margin-left: 4px;
+  margin-right: 4px;
 }
