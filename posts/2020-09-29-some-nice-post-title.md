@@ -87,6 +87,32 @@ s = "Python syntax highlighting"
 print s
 ```
 
+```fsharp
+let extractConnectedPosts (page: string) (posts: Postloader.Post list) =
+  let rec matchRemaining (posts: Postloader.Post list) =
+    match posts with
+    | [] -> failwith "I found no matching post :("
+    | prev :: current :: next :: _ when current.file = page ->
+        { Previous = Some prev
+          Current = current
+          Next = Some next }
+    | prev :: [ current ] when current.file = page ->
+        { Previous = Some prev
+          Current = current
+          Next = None }
+    | [ current ] when current.file = page ->
+        { Previous = None
+          Current = current
+          Next = None }
+    | current :: next :: _ when current.file = page ->
+        { Previous = None
+          Current = current
+          Next = Some next }
+    | _ :: xs -> matchRemaining xs
+
+  matchRemaining posts
+```
+
 ```
 No language indicated, so no syntax highlighting.
 But let's throw in a <b>tag</b>.

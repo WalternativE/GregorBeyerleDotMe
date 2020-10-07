@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/WalternativE/GregorBeyerleDotMe#readme",
   "dependencies": {
-    "bulma": "^0.9.0"
+    "bulma": "^0.9.1"
   }
 }

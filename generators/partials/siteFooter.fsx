@@ -9,12 +9,16 @@ let siteFooter =
         div [ Class "column is-offset-2 content" ] [
           p [] [
             !! "© 2020 Gregor Beyerle | "
-            a [ Href "/imprint.html" ] [ !! " Imprint " ]
+            a [ Href "/imprint.html" ] [
+              !! " Imprint "
+            ]
             !! " | Made with 🧡 and "
             a [ Href "https://github.com/ionide/Fornax"
                 Target "_blank" ] [
               !! "Fornax"
             ]
+            !! " | "
+            a [ Href "#top" ] [ !! "To Top" ]
           ]
         ]
       ]
