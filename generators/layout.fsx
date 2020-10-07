@@ -44,6 +44,7 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
 
   let menuEntries =
     pages
+    |> Seq.distinct
     |> Seq.filter (fun p -> p.isInTopNavigation)
     |> Seq.map (fun p ->
          let isActive = p.title = active

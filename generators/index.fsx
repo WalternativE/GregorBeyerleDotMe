@@ -5,11 +5,6 @@
 open Html
 
 let generate' (ctx: SiteContents) (_: string) =
-  let siteInfo =
-    match ctx.TryGetValue<Globalloader.SiteInfo>() with
-    | Some info -> info
-    | None -> failwith "Site info not configured correctly!"
-
   Layout.layout
     ctx
     "Home"

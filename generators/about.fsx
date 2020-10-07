@@ -5,13 +5,6 @@
 open Html
 
 let generate' (ctx: SiteContents) (_: string) =
-  let siteInfo = ctx.TryGetValue<Globalloader.SiteInfo>()
-
-  let desc =
-    siteInfo
-    |> Option.map (fun si -> si.description)
-    |> Option.defaultValue ""
-
   Layout.layout
     ctx
     "About"

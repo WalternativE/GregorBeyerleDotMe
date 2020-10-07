@@ -7,7 +7,7 @@ open Html
 let generate' (ctx: SiteContents) (_: string) =
   let posts =
     ctx.TryGetValues<Postloader.Post>()
-    |> Option.defaultValue Seq.empty<Postloader.Post>
+    |> Option.defaultValue Seq.empty
 
   let postLinks =
     posts

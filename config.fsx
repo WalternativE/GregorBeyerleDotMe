@@ -1,7 +1,9 @@
 #r "_lib/Fornax.Core.dll"
+#load "globals.fsx"
 
 open Config
 open System.IO
+open Globals
 
 let postPredicate (projectRoot: string, page: string) =
   let fileName = Path.Combine(projectRoot, page)
@@ -43,7 +45,11 @@ let config =
           OutputFile = ChangeExtension "css" }
         { Script = "post.fsx"
           Trigger = OnFilePredicate postPredicate
-          OutputFile = ChangeExtension "html" }
+          OutputFile =
+            Custom(fun s ->
+              s
+              |> toPostLink
+              |> fun s -> s.TrimStart('/')) }
         { Script = "staticfile.fsx"
           Trigger = OnFilePredicate staticPredicate
           OutputFile = SameFileName }
@@ -58,4 +64,7 @@ let config =
           OutputFile = NewFileName "blog.html" }
         { Script = "imprint.fsx"
           Trigger = Once
-          OutputFile = NewFileName "imprint.html" } ] }
+          OutputFile = NewFileName "imprint.html" }
+        { Script = "sitemap.fsx"
+          Trigger = Once
+          OutputFile = NewFileName "sitemap.xml" } ] }

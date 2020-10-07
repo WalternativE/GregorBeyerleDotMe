@@ -1,7 +1,9 @@
 #r "../_lib/Fornax.Core.dll"
 #r "../_lib/Markdig.dll"
+#load "../globals.fsx"
 
 open Markdig
+open System
 
 type PostConfig = { disableLiveRefresh: bool }
 
@@ -10,7 +12,7 @@ type Post =
     link: string
     title: string
     author: string option
-    published: System.DateTime option
+    published: DateTime option
     tags: string list
     content: string
     summary: string }
@@ -100,10 +102,8 @@ let loadFile n =
                            + ".md").Replace("\\", "/")
 
   let link =
-    "/"
-    + System.IO.Path.Combine(contentDir,
-                             (n |> System.IO.Path.GetFileNameWithoutExtension)
-                             + ".html").Replace("\\", "/")
+    file
+    |> Globals.toPostLink
 
   let title = config |> Map.find "title" |> trimString
 
@@ -143,6 +143,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
   System.IO.Directory.GetFiles postsPath
   |> Array.filter (fun n -> n.EndsWith ".md")
   |> Array.map loadFile
+  |> Array.sortByDescending (fun post -> post.published)
   |> Array.iter siteContent.Add
 
   siteContent.Add({ disableLiveRefresh = false })
