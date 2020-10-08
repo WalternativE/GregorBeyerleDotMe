@@ -3,10 +3,10 @@
 
 open Html
 
-let generate' (ctx: SiteContents) (_: string) =
+let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
-    "Home"
+    (Layout.Page "Home")
     [ div [ Class "focus-content-wrapper" ] [
         section [ Class "section focus-content" ] [
           div [ Class "container" ] [
@@ -70,4 +70,4 @@ let generate' (ctx: SiteContents) (_: string) =
         PinnedHero.pinnedHero true
       ] ]
 
-let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx page |> Layout.render ctx
+let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

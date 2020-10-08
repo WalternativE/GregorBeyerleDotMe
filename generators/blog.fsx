@@ -3,7 +3,7 @@
 
 open Html
 
-let generate' (ctx: SiteContents) (_: string) =
+let generate' (ctx: SiteContents) =
   let posts =
     ctx.TryGetValues<Postloader.Post>()
     |> Option.defaultValue Seq.empty
@@ -31,7 +31,7 @@ let generate' (ctx: SiteContents) (_: string) =
 
   Layout.layout
     ctx
-    "Blog"
+    (Layout.Page "Blog")
     [ PinnedHero.pinnedHero false
       section [ Class "section" ] [
         div [ Class "container" ] [
@@ -43,4 +43,4 @@ let generate' (ctx: SiteContents) (_: string) =
         ]
       ] ]
 
-let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx page |> Layout.render ctx
+let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

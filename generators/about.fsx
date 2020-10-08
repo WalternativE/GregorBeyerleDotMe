@@ -3,10 +3,10 @@
 
 open Html
 
-let generate' (ctx: SiteContents) (_: string) =
+let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
-    "About"
+    (Layout.Page "About")
     [ div [ Class "filling-with-hero-content" ] [
         div [ Class "filling-with-hero-content__content-wrapper" ] [
           section [ Class "section" ] [
@@ -54,4 +54,4 @@ let generate' (ctx: SiteContents) (_: string) =
         ]
       ] ]
 
-let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx page |> Layout.render ctx
+let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

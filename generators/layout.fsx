@@ -6,6 +6,10 @@
 
 open Html
 
+type Active =
+  | Page of pagename: string
+  | Post of post: Postloader.Post
+
 let injectWebsocketCode (webpage: string) =
   let websocketScript = """
     <script type="text/javascript">
@@ -29,7 +33,7 @@ let injectWebsocketCode (webpage: string) =
   let index = webpage.IndexOf head
   webpage.Insert((index + head.Length + 1), websocketScript)
 
-let layout (ctx: SiteContents) (active: string) bodyCnt =
+let layout (ctx: SiteContents) (active: Active) bodyCnt =
   let pages =
     ctx.TryGetValues<Pageloader.Page>()
     |> Option.defaultValue Seq.empty
@@ -44,13 +48,32 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
     |> Seq.distinct
     |> Seq.filter (fun p -> p.isInTopNavigation)
     |> Seq.map (fun p ->
-         let isActive = p.title = active
+         let isActive =
+          match active with
+          | Page title ->
+              p.title = title
+          | Post _ -> false
          let navClasses = "navbar-item is-tab"
          a [ Class(if isActive then navClasses + " is-active" else navClasses)
              Href p.link ] [
            !!(p.title.ToUpper())
          ])
     |> Seq.toList
+
+  let canonicalUrl =
+    let link =
+      match active with
+      | Page pageName ->
+          let page =
+            pages
+            |> Seq.filter (fun p -> p.title = pageName)
+            |> Seq.head
+
+          page.link
+      | Post post ->
+          post.link
+
+    siteInfo.basePath + link
 
   html [ Lang siteInfo.language ] [
     head [] [
@@ -67,6 +90,8 @@ let layout (ctx: SiteContents) (active: string) bodyCnt =
       // TODO: twitter card
       // TODO: open graph
       title [] [ !!siteInfo.title ]
+      link [ Rel "canonical"
+             Href canonicalUrl ]
       link [ Rel "icon"
              Type "image/png"
              Sizes "32x32"

@@ -3,10 +3,10 @@
 
 open Html
 
-let generate' (ctx: SiteContents) (_: string) =
+let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
-    "Imprint"
+    (Layout.Page "Imprint")
     [ div [ Class "filling-with-hero-content" ] [
         div [ Class "filling-with-hero-content__content-wrapper" ] [
           div [ Class "container" ] [
@@ -65,4 +65,4 @@ use is known."
         ]
       ] ]
 
-let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx page |> Layout.render ctx
+let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

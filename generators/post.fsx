@@ -115,7 +115,7 @@ let generate' (ctx: SiteContents) (page: string) =
 
   Layout.layout
     ctx
-    post.Current.title
+    (Layout.Post post.Current)
     [ div [ Class "container" ] [
         section [ Class "section" ] [
           div [ Class "columns" ] [
