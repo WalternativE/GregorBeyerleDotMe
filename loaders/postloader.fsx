@@ -16,7 +16,8 @@ type Post =
     published: DateTime option
     tags: string list
     content: string
-    summary: string }
+    summary: string
+    pinned: bool }
 
 let contentDir = "posts"
 
@@ -120,6 +121,12 @@ let loadFile n =
     |> Map.tryFind "published"
     |> Option.map (trimString >> System.DateTime.Parse)
 
+  let pinned =
+    config
+    |> Map.tryFind "pinned"
+    |> Option.map (fun _ -> true)
+    |> Option.defaultValue false
+
   let tags =
     let tagsOpt =
       config
@@ -138,7 +145,8 @@ let loadFile n =
     published = published
     tags = tags
     content = content
-    summary = summary }
+    summary = summary
+    pinned = pinned }
 
 let loader (projectRoot: string) (siteContent: SiteContents) =
   let postsPath =

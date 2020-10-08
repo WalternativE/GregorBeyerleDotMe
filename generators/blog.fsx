@@ -8,6 +8,8 @@ let generate' (ctx: SiteContents) =
     ctx.TryGetValues<Postloader.Post>()
     |> Option.defaultValue Seq.empty
 
+  let pinnedPost = Layout.pinnedPost ctx
+
   let postLinks =
     posts
     |> Seq.map (fun post ->
@@ -32,7 +34,7 @@ let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
     (Layout.Page "Blog")
-    [ PinnedHero.pinnedHero false
+    [ PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
       section [ Class "section" ] [
         div [ Class "container" ] [
           div [ Class "columns" ] [

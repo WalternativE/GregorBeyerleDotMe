@@ -10,6 +10,17 @@ type Active =
   | Page of pagename: string
   | Post of post: Postloader.Post
 
+let siteInfo (ctx: SiteContents) =
+    ctx.TryGetValue<Globalloader.SiteInfo>()
+    |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
+
+let pinnedPost (ctx: SiteContents) =
+  ctx.TryGetValues<Postloader.Post>()
+  |> Option.defaultValue Seq.empty
+  |> Seq.sortByDescending (fun post -> post.published)
+  |> Seq.filter (fun post -> post.pinned)
+  |> Seq.head
+
 let injectWebsocketCode (webpage: string) =
   let websocketScript = """
     <script type="text/javascript">
@@ -38,10 +49,7 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
     ctx.TryGetValues<Pageloader.Page>()
     |> Option.defaultValue Seq.empty
 
-  let siteInfo =
-    match ctx.TryGetValue<Globalloader.SiteInfo>() with
-    | Some info -> info
-    | None -> failwith "Site info not correctly configured!"
+  let siteInfo = siteInfo ctx
 
   let menuEntries =
     pages

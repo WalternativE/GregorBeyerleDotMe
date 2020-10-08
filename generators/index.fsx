@@ -4,9 +4,8 @@
 open Html
 
 let generate' (ctx: SiteContents) =
-  let siteInfo =
-    ctx.TryGetValue<Globalloader.SiteInfo>()
-    |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
+  let siteInfo = Layout.siteInfo ctx
+  let pinnedPost = Layout.pinnedPost ctx
 
   Layout.layout
     ctx
@@ -91,7 +90,7 @@ let generate' (ctx: SiteContents) =
             ]
           ]
         ]
-        PinnedHero.pinnedHero true
+        PinnedHero.pinnedHero true pinnedPost.title pinnedPost.link
       ] ]
 
 let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

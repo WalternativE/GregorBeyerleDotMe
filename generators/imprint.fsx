@@ -4,6 +4,8 @@
 open Html
 
 let generate' (ctx: SiteContents) =
+  let pinnedPost = Layout.pinnedPost ctx
+
   Layout.layout
     ctx
     (Layout.Page "Imprint")
@@ -61,7 +63,7 @@ use is known."
           ]
         ]
         div [ Class "filling-with-hero-content__hero-wrapper" ] [
-          PinnedHero.pinnedHero false
+          PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
         ]
       ] ]
 

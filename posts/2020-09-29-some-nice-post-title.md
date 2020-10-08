@@ -4,6 +4,7 @@ title: Some nice post title
 description: Some nice description
 author: @GBeyerle
 published: 2020-09-29
+pinned: true
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce bibendum neque eget nunc mattis eu sollicitudin enim tincidunt. Vestibulum lacus tortor, ultricies id dignissim ac, bibendum in velit.

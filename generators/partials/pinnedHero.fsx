@@ -2,7 +2,7 @@
 
 open Html
 
-let pinnedHero isMedium =
+let pinnedHero isMedium title link =
   let addedClass = if isMedium then " is-medium" else ""
   section [ Class(sprintf "hero is-info%s" addedClass) ] [
     div [ Class "hero-body" ] [
@@ -21,9 +21,9 @@ let pinnedHero isMedium =
                     !! "Pinned for you:"
                   ]
                   a [ Class "pin-text__main-link"
-                      Href "#" ] [
+                      Href link ] [
                     h3 [ Class "is-size-3" ] [
-                      !! "Doing stuff with things. The definitive guide."
+                      !! title
                     ]
                   ]
                 ]
