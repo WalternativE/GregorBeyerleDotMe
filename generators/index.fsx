@@ -4,6 +4,10 @@
 open Html
 
 let generate' (ctx: SiteContents) =
+  let siteInfo =
+    ctx.TryGetValue<Globalloader.SiteInfo>()
+    |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
+
   Layout.layout
     ctx
     (Layout.Page "Home")
@@ -41,24 +45,44 @@ let generate' (ctx: SiteContents) =
                     ]
                     div [ Class "socials" ] [
                       a [ Class "social-link"
+                          Custom ("aria-label", "To my LinkedIn")
                           Href "https://www.linkedin.com/in/gregor-beyerle"
-                          Target "_blank" ] [
-                        span [ Class "fab fa-linkedin" ] []
+                          Target "_blank"
+                          Rel "noopener" ] [
+                        i [ Class "fab fa-linkedin"
+                            Custom ("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
+                          Custom ("aria-label", "To my Twitter")
                           Href "https://twitter.com/GBeyerle"
-                          Target "_blank" ] [
-                        span [ Class "fab fa-twitter-square" ] []
+                          Target "_blank"
+                          Rel "noopener" ] [
+                        i [ Class "fab fa-twitter-square"
+                            Custom ("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
+                          Custom ("aria-label", "To my GitHub")
                           Href "https://github.com/WalternativE"
-                          Target "_blank" ] [
-                        span [ Class "fab fa-github-square" ] []
+                          Target "_blank"
+                          Rel "noopener" ] [
+                        i [ Class "fab fa-github-square"
+                            Custom ("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
+                          Custom ("aria-label", "To my StackOverflow Developer Story")
                           Href "https://stackoverflow.com/users/story/4143281"
-                          Target "_blank" ] [
-                        span [ Class "fab fa-stack-overflow" ] []
+                          Target "_blank"
+                          Rel "noopener" ] [
+                        i [ Class "fab fa-stack-overflow"
+                            Custom ("aria-hidden", "true") ] []
+                      ]
+                      a [ Class "social-link"
+                          Custom ("aria-label", "My Blog RSS Feed")
+                          Href (siteInfo.basePath + "/blogrssfeed.xml")
+                          Target "_blank"
+                          Rel "noopener" ] [
+                        i [ Class "fas fa-rss-square"
+                            Custom ("aria-hidden", "true") ] []
                       ]
                     ]
                   ]

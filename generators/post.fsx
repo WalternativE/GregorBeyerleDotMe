@@ -31,23 +31,23 @@ let constructNavigation (post: ConnectedPosts) (navigations: NavigationItem list
     div [ Class "icon-navigation" ] [
       a [ Href "#top"
           Class "icon-navigation__link"
-          Custom("aria-hidden", "true")
           Custom("aria-label", "to top") ] [
-        i [ Class "fas fa-chevron-up" ] []
+        i [ Class "fas fa-chevron-up"
+            Custom("aria-hidden", "true") ] []
       ]
       if post.Previous.IsSome then
         a [ Href post.Previous.Value.link
             Class "icon-navigation__link"
-            Custom("aria-hidden", "true")
             Custom("aria-label", "previous article") ] [
-          i [ Class "fas fa-chevron-left" ] []
+          i [ Class "fas fa-chevron-left"
+              Custom("aria-hidden", "true") ] []
         ]
       if post.Next.IsSome then
         a [ Href post.Next.Value.link
             Class "icon-navigation__link"
-            Custom("aria-hidden", "true")
             Custom("aria-label", "next article") ] [
-          i [ Class "fas fa-chevron-right" ] []
+          i [ Class "fas fa-chevron-right"
+              Custom("aria-hidden", "true") ] []
         ]
     ]
     ul

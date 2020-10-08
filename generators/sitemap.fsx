@@ -1,12 +1,13 @@
 #r "../_lib/Fornax.Core.dll"
 #if !FORNAX
-#load "../loaders/postloader.fsx" "../loaders/pageloader.fsx" "../loaders/globalloader.fsx"
+#load "../loaders/postloader.fsx" "../loaders/pageloader.fsx" "../loaders/globalloader.fsx" "../globals.fsx"
 #endif
 
 open System
 open System.IO
 open System.Xml.Linq
 open System.Globalization
+open Globals
 
 type SitemapFrequency =
   | Never
@@ -22,12 +23,6 @@ type SitemapNode =
     LastModified: DateTime
     Priority: float
     Url: string }
-
-type Utf8StringWriter() =
-  inherit StringWriter()
-
-  override this.Encoding
-    with get() = Text.Encoding.UTF8
 
 let inline (!!) arg =
   (^a: (static member op_Implicit: ^b -> ^a) arg)

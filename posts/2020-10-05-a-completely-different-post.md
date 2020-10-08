@@ -1,6 +1,7 @@
 ---
 layout: post
 title: A completely different post
+description: A completely different description
 author: @GBeyerle
 published: 2020-10-05
 ---

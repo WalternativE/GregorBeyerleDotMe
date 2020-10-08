@@ -11,6 +11,7 @@ type Post =
   { file: string
     link: string
     title: string
+    description: string
     author: string option
     published: DateTime option
     tags: string list
@@ -107,6 +108,8 @@ let loadFile n =
 
   let title = config |> Map.find "title" |> trimString
 
+  let description = config |> Map.find "description" |> trimString
+
   let author =
     config
     |> Map.tryFind "author"
@@ -130,6 +133,7 @@ let loadFile n =
   { file = file
     link = link
     title = title
+    description = description
     author = author
     published = published
     tags = tags

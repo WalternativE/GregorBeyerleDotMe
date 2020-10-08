@@ -14,7 +14,8 @@ let siteFooter =
             ]
             !! " | Made with 🧡 and "
             a [ Href "https://github.com/ionide/Fornax"
-                Target "_blank" ] [
+                Target "_blank"
+                Rel "noopener" ] [
               !! "Fornax"
             ]
             !! " | "
