@@ -4,7 +4,7 @@ open Html
 
 let pinnedHero isMedium =
   let addedClass = if isMedium then " is-medium" else ""
-  section [ Class (sprintf "hero is-info%s" addedClass) ] [
+  section [ Class(sprintf "hero is-info%s" addedClass) ] [
     div [ Class "hero-body" ] [
       div [ Class "container" ] [
         div [ Class "columns" ] [

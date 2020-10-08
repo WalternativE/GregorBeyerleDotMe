@@ -1,10 +1,7 @@
 #r "../_lib/Fornax.Core.dll"
-#load "partials/siteHeader.fsx"
-#load "partials/siteFooter.fsx"
+#load "partials/siteHeader.fsx" "partials/siteFooter.fsx"
 #if !FORNAX
-#load "../loaders/postloader.fsx"
-#load "../loaders/pageloader.fsx"
-#load "../loaders/globalloader.fsx"
+#load "../loaders/postloader.fsx" "../loaders/pageloader.fsx" "../loaders/globalloader.fsx"
 #endif
 
 open Html

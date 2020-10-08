@@ -1,6 +1,5 @@
 #r "../_lib/Fornax.Core.dll"
-#load "layout.fsx"
-#load "./partials/pinnedHero.fsx"
+#load "layout.fsx" "./partials/pinnedHero.fsx"
 
 open Html
 

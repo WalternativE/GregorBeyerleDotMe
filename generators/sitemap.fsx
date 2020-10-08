@@ -1,9 +1,12 @@
 #r "../_lib/Fornax.Core.dll"
+#if !FORNAX
+#load "../loaders/postloader.fsx" "../loaders/pageloader.fsx" "../loaders/globalloader.fsx"
+#endif
 
 open System
 open System.IO
-open System.Xml
 open System.Xml.Linq
+open System.Globalization
 
 type SitemapFrequency =
   | Never
@@ -35,26 +38,45 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
 
   let root = XElement(ns + "urlset")
 
-  // let siteInfo =
-  //   ctx.TryGetValue<SiteInfo>()
-  //   |> Option.defaultWith (fun () -> failwith "You didn't configure the site correctly")
+  let siteInfo =
+    ctx.TryGetValue<Globalloader.SiteInfo>()
+    |> Option.defaultWith (fun () -> failwith "No siteinfo found :(")
 
-  // let pages =
-  //   ctx.TryGetValues<Page>()
-  //   |> Option.defaultValue Seq.empty
-  //   |> Seq.map (fun page ->
-  //     { Frequency = Monthly
-  //       LastModified = page.lastModified |> Option.defaultValue DateTime.Now
-  //       Priority = 0.5
-  //       Url = page.link })
-  //   |> Seq.iter (fun node ->
-  //       let urlElement = XElement(ns + "url")
-  //       root.Add(urlElement))
+  let toUrlElement (node: SitemapNode) =
+    XElement(ns + "url",
+             XElement(ns + "loc", Uri.EscapeUriString(node.Url)),
+             XElement(ns + "lastmod", node.LastModified.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz")),
+             XElement(ns + "changefreq", node.Frequency.ToString().ToLowerInvariant()),
+             XElement(ns + "priority", node.Priority.ToString("F1", CultureInfo.InvariantCulture)))
 
-  // let posts =
-  //   ctx.TryGetValues<Post>()
-  //   |> Option.defaultValue Seq.empty
-  //   |> Seq.toList
+  let addNodeToRoot (node: SitemapNode) =
+      let toUrlElement = toUrlElement node
+      root.Add(toUrlElement)
+
+  let pages =
+    ctx.TryGetValues<Pageloader.Page>()
+    |> Option.defaultValue Seq.empty
+
+  pages
+  |> Seq.map (fun page ->
+    { Frequency = Monthly
+      LastModified = None |> Option.defaultValue DateTime.Now
+      Priority = 0.5
+      Url = siteInfo.basePath + page.link })
+  |> Seq.iter addNodeToRoot
+
+  let posts =
+    ctx.TryGetValues<Postloader.Post>()
+    |> Option.defaultValue Seq.empty
+
+  posts
+  |> Seq.filter (fun post -> post.published.IsSome)
+  |> Seq.map (fun post ->
+    { Frequency = Monthly
+      LastModified = post.published.Value
+      Priority = 0.5
+      Url = siteInfo.basePath + post.link })
+  |> Seq.iter addNodeToRoot
 
   use stringWriter = new Utf8StringWriter()
 
