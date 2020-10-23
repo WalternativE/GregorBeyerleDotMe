@@ -17,7 +17,10 @@ type Post =
     tags: string list
     content: string
     summary: string
-    pinned: bool }
+    pinned: bool
+    large_image: string
+    image_attribution_link: string option
+    image_attribution_text: string option }
 
 let contentDir = "posts"
 
@@ -136,6 +139,21 @@ let loadFile n =
 
     defaultArg tagsOpt []
 
+  let largeImage =
+    config
+    |> Map.find "large_image"
+    |> trimString
+
+  let imageAttributionLink =
+    config
+    |> Map.tryFind "image_attribution_link"
+    |> Option.map trimString
+
+  let imageAttributionText =
+    config
+    |> Map.tryFind "image_attribution_text"
+    |> Option.map trimString
+
   { file = file
     link = link
     title = title
@@ -145,7 +163,10 @@ let loadFile n =
     tags = tags
     content = content
     summary = summary
-    pinned = pinned }
+    pinned = pinned
+    large_image = largeImage
+    image_attribution_link = imageAttributionLink
+    image_attribution_text = imageAttributionText }
 
 let loader (projectRoot: string) (siteContent: SiteContents) =
   let postsPath =

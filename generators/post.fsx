@@ -63,6 +63,18 @@ let constructNavigation (post: ConnectedPosts) (navigations: NavigationItem list
 
 let postLayout (post: Postloader.Post) =
   article [ Class "article" ] [
+    figure [ Class "post-hero-figure" ] [
+      image [ Class "image"
+              Alt post.title
+              Src post.large_image ] []
+      match post.image_attribution_link, post.image_attribution_text with
+      | Some link, Some attributionText ->
+        figcaption [] [
+          !! "Image by "
+          a [ Href link; Target "_blank"; Rel "noopener" ] [ !! attributionText ]
+        ]
+      | _ -> ()
+    ]
     hgroup [] [
       h1 [ Class "is-size-1" ] [
         !!post.title

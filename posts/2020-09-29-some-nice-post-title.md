@@ -5,6 +5,9 @@ description: Some nice description
 author: @GBeyerle
 published: 2020-09-29
 pinned: true
+large_image: "/images/posts/some-blog-post/BlogHeaderPic.jpg"
+image_attribution_link: https://unsplash.com/photos/M5tzZtFCOfs
+image_attribution_text: Taylor Vick on Unsplash
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce bibendum neque eget nunc mattis eu sollicitudin enim tincidunt. Vestibulum lacus tortor, ultricies id dignissim ac, bibendum in velit.

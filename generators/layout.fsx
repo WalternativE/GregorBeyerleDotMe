@@ -10,6 +10,12 @@ type Active =
   | Page of pagename: string
   | Post of post: Postloader.Post
 
+type PostMetadata =
+  { Title: string
+    Description: string
+    Image: string
+    PublishedAd: System.DateTime }
+
 let siteInfo (ctx: SiteContents) =
   ctx.TryGetValue<Globalloader.SiteInfo>()
   |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
@@ -89,6 +95,8 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
              Content "width=device-width, initial-scale=1" ]
       meta [ HttpEquiv "Content-Language"
              Content siteInfo.language ]
+      meta [ Name "generator"
+             Content "Fornax" ]
       meta [ Name "author"
              Content siteInfo.author ]
       meta [ Name "description"

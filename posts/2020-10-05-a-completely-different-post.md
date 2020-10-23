@@ -4,6 +4,7 @@ title: A completely different post
 description: A completely different description
 author: @GBeyerle
 published: 2020-10-05
+large_image: "/images/posts/some-blog-post/BlogHeaderPic.jpg"
 ---
 ## Something else
 
