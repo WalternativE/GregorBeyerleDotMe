@@ -5,8 +5,7 @@ open System.Text.RegularExpressions
 type Utf8StringWriter() =
   inherit StringWriter()
 
-  override this.Encoding
-    with get() = Text.Encoding.UTF8
+  override this.Encoding = Text.Encoding.UTF8
 
 let toPostLink (fileName: string) =
   let regex = """(\d{4}-\d{2}-\d{2})-(.*).md"""

@@ -103,13 +103,12 @@ let loadFile n =
                            (n |> System.IO.Path.GetFileNameWithoutExtension)
                            + ".md").Replace("\\", "/")
 
-  let link =
-    file
-    |> Globals.toPostLink
+  let link = file |> Globals.toPostLink
 
   let title = config |> Map.find "title" |> trimString
 
-  let description = config |> Map.find "description" |> trimString
+  let description =
+    config |> Map.find "description" |> trimString
 
   let author =
     config

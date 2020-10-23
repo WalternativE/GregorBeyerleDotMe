@@ -11,8 +11,8 @@ type Active =
   | Post of post: Postloader.Post
 
 let siteInfo (ctx: SiteContents) =
-    ctx.TryGetValue<Globalloader.SiteInfo>()
-    |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
+  ctx.TryGetValue<Globalloader.SiteInfo>()
+  |> Option.defaultWith (fun () -> failwith "Oh no, all that failure :(")
 
 let pinnedPost (ctx: SiteContents) =
   ctx.TryGetValues<Postloader.Post>()
@@ -57,10 +57,10 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
     |> Seq.filter (fun p -> p.isInTopNavigation)
     |> Seq.map (fun p ->
          let isActive =
-          match active with
-          | Page title ->
-              p.title = title
-          | Post _ -> false
+           match active with
+           | Page title -> p.title = title
+           | Post _ -> false
+
          let navClasses = "navbar-item is-tab"
          a [ Class(if isActive then navClasses + " is-active" else navClasses)
              Href p.link ] [
@@ -78,8 +78,7 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
             |> Seq.head
 
           page.link
-      | Post post ->
-          post.link
+      | Post post -> post.link
 
     siteInfo.basePath + link
 

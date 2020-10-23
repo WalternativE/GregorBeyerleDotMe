@@ -14,11 +14,15 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
     ctx.TryGetValue<Globalloader.SiteInfo>()
     |> Option.defaultWith (fun () -> failwith "Whyyyy no site info? :(")
 
-  let feed = SyndicationFeed(siteInfo.title, siteInfo.description, Uri siteInfo.basePath)
+  let feed =
+    SyndicationFeed(siteInfo.title, siteInfo.description, Uri siteInfo.basePath)
+
   feed.Language <- siteInfo.language
   feed.LastUpdatedTime <- DateTimeOffset DateTime.Now
 
-  let author = SyndicationPerson(siteInfo.authorEmail, siteInfo.author, siteInfo.basePath)
+  let author =
+    SyndicationPerson(siteInfo.authorEmail, siteInfo.author, siteInfo.basePath)
+
   feed.Authors.Add(author)
 
   let posts =
@@ -29,9 +33,11 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
     posts
     |> Seq.filter (fun post -> post.published.IsSome)
     |> Seq.map (fun post ->
-        let item = SyndicationItem(post.title, post.description, Uri (siteInfo.basePath + post.link))
-        item.LastUpdatedTime <- DateTimeOffset post.published.Value
-        item)
+         let item =
+           SyndicationItem(post.title, post.description, Uri(siteInfo.basePath + post.link))
+
+         item.LastUpdatedTime <- DateTimeOffset post.published.Value
+         item)
     |> Seq.toArray
 
   feed.Items <- items
@@ -42,7 +48,7 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
     use rssWriter = XmlWriter.Create(stringWriter)
 
     let rssFormatter = Rss20FeedFormatter(feed, false)
-    rssFormatter.WriteTo(rssWriter);
+    rssFormatter.WriteTo(rssWriter)
 
   writeFeed stringWriter
 

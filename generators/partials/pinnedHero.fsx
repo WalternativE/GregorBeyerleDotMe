@@ -22,9 +22,7 @@ let pinnedHero isMedium title link =
                   ]
                   a [ Class "pin-text__main-link"
                       Href link ] [
-                    h3 [ Class "is-size-3" ] [
-                      !! title
-                    ]
+                    h3 [ Class "is-size-3" ] [ !!title ]
                   ]
                 ]
               ]

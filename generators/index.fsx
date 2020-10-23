@@ -44,44 +44,45 @@ let generate' (ctx: SiteContents) =
                     ]
                     div [ Class "socials" ] [
                       a [ Class "social-link"
-                          Custom ("aria-label", "To my LinkedIn")
+                          Custom("aria-label", "To my LinkedIn")
                           Href "https://www.linkedin.com/in/gregor-beyerle"
                           Target "_blank"
                           Rel "noopener" ] [
                         i [ Class "fab fa-linkedin"
-                            Custom ("aria-hidden", "true") ] []
+                            Custom("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
-                          Custom ("aria-label", "To my Twitter")
+                          Custom("aria-label", "To my Twitter")
                           Href "https://twitter.com/GBeyerle"
                           Target "_blank"
                           Rel "noopener" ] [
                         i [ Class "fab fa-twitter-square"
-                            Custom ("aria-hidden", "true") ] []
+                            Custom("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
-                          Custom ("aria-label", "To my GitHub")
+                          Custom("aria-label", "To my GitHub")
                           Href "https://github.com/WalternativE"
                           Target "_blank"
                           Rel "noopener" ] [
                         i [ Class "fab fa-github-square"
-                            Custom ("aria-hidden", "true") ] []
+                            Custom("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
-                          Custom ("aria-label", "To my StackOverflow Developer Story")
+                          Custom("aria-label", "To my StackOverflow Developer Story")
                           Href "https://stackoverflow.com/users/story/4143281"
                           Target "_blank"
                           Rel "noopener" ] [
                         i [ Class "fab fa-stack-overflow"
-                            Custom ("aria-hidden", "true") ] []
+                            Custom("aria-hidden", "true") ] []
                       ]
                       a [ Class "social-link"
-                          Custom ("aria-label", "My Blog RSS Feed")
-                          Href (siteInfo.basePath + "/blogrssfeed.xml")
+                          Custom("aria-label", "My Blog RSS Feed")
+                          Href(siteInfo.basePath + "/blogrssfeed.xml")
                           Target "_blank"
-                          Rel "noopener" ] [
+                          Rel "noopener"
+                          Type "application/rss+xml" ] [
                         i [ Class "fas fa-rss-square"
-                            Custom ("aria-hidden", "true") ] []
+                            Custom("aria-hidden", "true") ] []
                       ]
                     ]
                   ]
