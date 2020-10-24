@@ -9,12 +9,18 @@ type SiteInfo =
     basePath: string }
 
 let loader (projectRoot: string) (siteContent: SiteContents) =
+  #if WATCH
+  let basePath = "http://localhost:8080"
+  #else
+  let basePath = "https://www.gregorbeyerle.me"
+  #endif
+
   siteContent.Add
     ({ title = "GregorBeyerleDotMe"
        description = "Functional Programming, Data Science, Machine Learning and more!"
        language = "en"
        author = "Gregor Beyerle"
        authorEmail = "hello@gregorbeyerle.me"
-       basePath = "https://www.gregorbeyerle.me" })
+       basePath = basePath })
 
   siteContent

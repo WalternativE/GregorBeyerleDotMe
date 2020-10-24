@@ -178,5 +178,11 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
   |> Array.sortByDescending (fun post -> post.published)
   |> Array.iter siteContent.Add
 
-  siteContent.Add({ disableLiveRefresh = false })
+  #if WATCH
+  let disableLiveRefresh = false
+  #else
+  let disableLiveRefresh = true
+  #endif
+
+  siteContent.Add({ disableLiveRefresh = disableLiveRefresh })
   siteContent

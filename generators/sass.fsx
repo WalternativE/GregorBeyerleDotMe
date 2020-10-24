@@ -7,9 +7,15 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
   let inputPath = Path.Combine(projectRoot, page)
   let outputPath = Path.GetTempFileName()
 
+  #if WATCH
+  let extraSassArgs = "--embed-source-map"
+  #else
+  let extraSassArgs = "--style=compressed --no-source-map"
+  #endif
+
   let psi = ProcessStartInfo()
   psi.FileName <- "sass"
-  psi.Arguments <- sprintf "%s %s" inputPath outputPath
+  psi.Arguments <- sprintf "%s %s %s" extraSassArgs inputPath outputPath
   psi.CreateNoWindow <- true
   psi.WindowStyle <- ProcessWindowStyle.Hidden
   psi.UseShellExecute <- true

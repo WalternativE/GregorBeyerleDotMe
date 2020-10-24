@@ -8,6 +8,15 @@ type Page =
     isInTopNavigation: bool
     changedAt: DateTime option }
 
+let link (fragment: string) =
+  #if WATCH
+  let suffix = ".html"
+  #else
+  let suffix = String.Empty
+  #endif
+
+  fragment + suffix
+
 let loader (projectRoot: string) (siteContent: SiteContents) =
   siteContent.Add
     ({ title = "Home"
@@ -16,17 +25,17 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
        changedAt = None })
   siteContent.Add
     ({ title = "About"
-       link = "/about.html"
+       link = link "/about"
        isInTopNavigation = true
        changedAt = None })
   siteContent.Add
     ({ title = "Blog"
-       link = "/blog.html"
+       link = link "/blog"
        isInTopNavigation = true
        changedAt = None })
   siteContent.Add
     ({ title = "Imprint"
-       link = "/imprint.html"
+       link = link "/imprint"
        isInTopNavigation = false
        changedAt = None })
 

@@ -18,7 +18,13 @@ let toPostLink (fileName: string) =
       | year :: month :: [ day ] -> sprintf "%s/%s/%s" year month day
       | _ -> failwith "The world just exploded"
 
-    sprintf "/posts/%s/%s.html" datePart ``match``.Groups.[2].Value
+    #if WATCH
+    let suffix = ".html"
+    #else
+    let suffix = String.Empty
+    #endif
+
+    sprintf "/posts/%s/%s%s" datePart ``match``.Groups.[2].Value suffix
   else
     sprintf "The post filename %s was not in the correct format!" fileName
     |> failwith
