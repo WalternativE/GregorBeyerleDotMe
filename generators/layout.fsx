@@ -10,11 +10,36 @@ type Active =
   | Page of pagename: string
   | Post of post: Postloader.Post
 
-type PostMetadata =
+type CommonMetadata =
   { Title: string
     Description: string
     Image: string
-    PublishedAd: System.DateTime }
+    Url: string }
+
+  static member FromPage (siteInfo: Globalloader.SiteInfo) (url: string) (page: Pageloader.Page) =
+    { Title = page.title
+      Description = page.description
+      Image =
+        siteInfo.basePath
+        + "/images/profile_questioning.jpg"
+      Url = url }
+
+  static member FromPost (siteInfo: Globalloader.SiteInfo) (url: string) (post: Postloader.Post) =
+    { Title = post.title
+      Description = post.description
+      Image = siteInfo.basePath + post.large_image
+      Url = url }
+
+type PostMetadata =
+  { PublishedAt: System.DateTime
+    ModifiedAt: System.DateTime }
+
+  static member FromPost(post: Postloader.Post) =
+    { PublishedAt = post.published.Value
+      ModifiedAt =
+        match post.last_modified with
+        | Some v -> v
+        | None -> post.published.Value }
 
 let siteInfo (ctx: SiteContents) =
   ctx.TryGetValue<Globalloader.SiteInfo>()
@@ -50,6 +75,48 @@ let injectWebsocketCode (webpage: string) =
   let index = webpage.IndexOf head
   webpage.Insert((index + head.Length + 1), websocketScript)
 
+let openGraph (siteInfo: Globalloader.SiteInfo) (commonMeta: CommonMetadata) (postMeta: PostMetadata option) =
+  [ meta [ Property "og:locale"
+           Content siteInfo.language ]
+    meta [ Property "og:title"
+           Content commonMeta.Title ]
+    meta [ Property "og:description"
+           Content commonMeta.Description ]
+    meta [ Property "og:url"
+           Content commonMeta.Url ]
+    meta [ Property "og:site_name"
+           Content siteInfo.title ]
+    meta [ Property "og:image"
+           Content commonMeta.Image ]
+    yield!
+      match postMeta with
+      | None ->
+          [ meta [ Property "og:type"
+                   Content "website" ] ]
+      | Some postMeta ->
+          [ meta [ Property "og:type"
+                   Content "article" ]
+            meta [ Property "article:published_time"
+                   Content(postMeta.PublishedAt.ToString("o")) ]
+            meta [ Property "article:modified_time"
+                   Content(postMeta.ModifiedAt.ToString("o")) ] ] ]
+
+let twitter (commonMeta: CommonMetadata) =
+  [ meta [ Name "twitter:card"
+           Content "summary_large_image" ]
+    meta [ Name "twitter:url"
+           Content commonMeta.Url ]
+    meta [ Name "twitter:title"
+           Content commonMeta.Title ]
+    meta [ Name "twitter:description"
+           Content commonMeta.Description ]
+    meta [ Name "twitter:image"
+           Content commonMeta.Image ]
+    meta [ Name "twitter:site"
+           Content "@GBeyerle" ]
+    meta [ Name "twitter:creator"
+           Content "@GBeyerle" ] ]
+
 let layout (ctx: SiteContents) (active: Active) bodyCnt =
   let pages =
     ctx.TryGetValues<Pageloader.Page>()
@@ -74,8 +141,10 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
          ])
     |> Seq.toList
 
-  let canonicalUrl =
-    let link =
+  let toCanonical link = siteInfo.basePath + link
+
+  let (canonicalUrl, commonMeta, postMeta) =
+    let (link, commonMeta, postMeta) =
       match active with
       | Page pageName ->
           let page =
@@ -83,10 +152,11 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
             |> Seq.filter (fun p -> p.title = pageName)
             |> Seq.head
 
-          page.link
-      | Post post -> post.link
+          page.link, CommonMetadata.FromPage siteInfo (toCanonical page.link) page, None
+      | Post post ->
+          post.link, CommonMetadata.FromPost siteInfo (toCanonical post.link) post, PostMetadata.FromPost post |> Some
 
-    siteInfo.basePath + link
+    toCanonical link, commonMeta, postMeta
 
   html [ Lang siteInfo.language ] [
     head [] [
@@ -100,11 +170,12 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
       meta [ Name "author"
              Content siteInfo.author ]
       meta [ Name "description"
-             Content siteInfo.description ]
-      // TODO: keywords
-      // TODO: twitter card
-      // TODO: open graph
-      title [] [ !!siteInfo.title ]
+             Content commonMeta.Description ]
+      yield! twitter commonMeta
+      yield! openGraph siteInfo commonMeta postMeta
+      title [] [
+        !!(sprintf "%s | %s" commonMeta.Title siteInfo.title)
+      ]
       link [ Rel "canonical"
              Href canonicalUrl ]
       link [ Rel "icon"

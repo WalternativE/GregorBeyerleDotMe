@@ -14,6 +14,7 @@ type Post =
     description: string
     author: string option
     published: DateTime option
+    last_modified: DateTime option
     tags: string list
     content: string
     summary: string
@@ -123,6 +124,11 @@ let loadFile n =
     |> Map.tryFind "published"
     |> Option.map (trimString >> System.DateTime.Parse)
 
+  let lastModified =
+    config
+    |> Map.tryFind "last_modified"
+    |> Option.map (trimString >> System.DateTime.Parse)
+
   let pinned =
     config
     |> Map.tryFind "pinned"
@@ -160,6 +166,7 @@ let loadFile n =
     description = description
     author = author
     published = published
+    last_modified = lastModified
     tags = tags
     content = content
     summary = summary
@@ -178,11 +185,11 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
   |> Array.sortByDescending (fun post -> post.published)
   |> Array.iter siteContent.Add
 
-  #if WATCH
+#if WATCH
   let disableLiveRefresh = false
-  #else
+#else
   let disableLiveRefresh = true
-  #endif
+#endif
 
   siteContent.Add({ disableLiveRefresh = disableLiveRefresh })
   siteContent
