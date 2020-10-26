@@ -1,10 +1,13 @@
 #r "../_lib/Fornax.Core.dll"
+#r "../_lib/Newtonsoft.Json.dll"
 #load "partials/siteHeader.fsx" "partials/siteFooter.fsx"
 #if !FORNAX
 #load "../loaders/postloader.fsx" "../loaders/pageloader.fsx" "../loaders/globalloader.fsx"
 #endif
 
 open Html
+open Newtonsoft.Json
+open Newtonsoft.Json.Serialization
 
 type Active =
   | Page of pagename: string
@@ -40,6 +43,96 @@ type PostMetadata =
         match post.last_modified with
         | Some v -> v
         | None -> post.published.Value }
+
+type Person =
+  { [<JsonProperty("@type")>]Type: string
+    Name: string }
+
+  static member Create name =
+    { Type = "Person"
+      Name = name }
+
+type WebSite =
+  { [<JsonProperty("@context")>]Context: string
+    [<JsonProperty("@type")>]Type: string
+    Author: Person
+    Publisher: Person
+    Headline: string
+    SameAs: string []
+    Description: string
+    Image: string
+    Name: string
+    Url: string }
+
+  static member Create headline sameAs description image name url authorName =
+    let authoringPerson = Person.Create authorName
+    { Context = "https://schema.org"
+      Type = "WebSite"
+      Headline = headline
+      SameAs = sameAs
+      Description = description
+      Image = image
+      Name = name
+      Url = url
+      Author = authoringPerson
+      Publisher = authoringPerson }
+
+type WebPageEntity =
+  { [<JsonProperty("@type")>]Type: string
+    [<JsonProperty("@id")>]Id: string }
+
+  static member Create (uri: string) =
+    { Type = "WebPage"
+      Id = uri }
+
+type BlogPosting =
+  { [<JsonProperty("@context")>]Context: string
+    [<JsonProperty("@type")>]Type: string
+    Headline: string
+    DateModified: System.DateTime
+    DatePublished: System.DateTime
+    Author: Person
+    Description: string
+    Image: string
+    Url: string
+    Publisher: Person
+    MainEntityOfPage: WebPageEntity }
+
+    static member Create headline dateModified datePublished authorName description image url =
+      let authoringPerson = Person.Create authorName
+      let mainEntity = WebPageEntity.Create url
+      { Context = "https://schema.org"
+        Type = "BlogPosting"
+        Headline = headline
+        DateModified = dateModified
+        DatePublished = datePublished
+        Author = authoringPerson
+        Description = description
+        Image = image
+        Url = url
+        Publisher = authoringPerson
+        MainEntityOfPage = mainEntity }
+
+let jsonSerializationSettings =
+  JsonSerializerSettings(
+    ContractResolver = CamelCasePropertyNamesContractResolver()
+  )
+
+let semanticContent (siteInfo: Globalloader.SiteInfo) (commonMeta: CommonMetadata) (postMeta: PostMetadata option) =
+  // TODO: match if there is post meta or not and return other jsonld doc
+  let webSite =
+    WebSite.Create commonMeta.Title
+                   [| "https://www.linkedin.com/in/gregor-beyerle"
+                      "https://twitter.com/GBeyerle"
+                      "https://github.com/WalternativE"
+                      "https://stackoverflow.com/users/story/4143281" |]
+                   commonMeta.Description
+                   commonMeta.Image
+                   siteInfo.author
+                   commonMeta.Url
+                   siteInfo.author
+
+  JsonConvert.SerializeObject(webSite, jsonSerializationSettings)
 
 let siteInfo (ctx: SiteContents) =
   ctx.TryGetValue<Globalloader.SiteInfo>()
@@ -165,6 +258,9 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
              Content "width=device-width, initial-scale=1" ]
       meta [ HttpEquiv "Content-Language"
              Content siteInfo.language ]
+      title [] [
+        !!(sprintf "%s | %s" commonMeta.Title siteInfo.title)
+      ]
       meta [ Name "generator"
              Content "Fornax" ]
       meta [ Name "author"
@@ -173,9 +269,7 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
              Content commonMeta.Description ]
       yield! twitter commonMeta
       yield! openGraph siteInfo commonMeta postMeta
-      title [] [
-        !!(sprintf "%s | %s" commonMeta.Title siteInfo.title)
-      ]
+      script [ Type "application/ld+json" ] [ !!(semanticContent siteInfo commonMeta postMeta) ]
       link [ Rel "canonical"
              Href canonicalUrl ]
       link [ Rel "icon"
