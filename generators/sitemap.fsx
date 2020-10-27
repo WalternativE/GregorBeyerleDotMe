@@ -40,7 +40,12 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
     XElement
       (ns + "url",
        XElement(ns + "loc", Uri.EscapeUriString(node.Url)),
-       XElement(ns + "lastmod", node.LastModified.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz")),
+       XElement
+         (ns + "lastmod",
+          node
+            .LastModified
+            .ToLocalTime()
+            .ToString("yyyy-MM-ddTHH:mm:sszzz")),
        XElement(ns + "changefreq", node.Frequency.ToString().ToLowerInvariant()),
        XElement(ns + "priority", node.Priority.ToString("F1", CultureInfo.InvariantCulture)))
 

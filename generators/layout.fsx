@@ -45,16 +45,17 @@ type PostMetadata =
         | None -> post.published.Value }
 
 type Person =
-  { [<JsonProperty("@type")>]Type: string
+  { [<JsonProperty("@type")>]
+    Type: string
     Name: string }
 
-  static member Create name =
-    { Type = "Person"
-      Name = name }
+  static member Create name = { Type = "Person"; Name = name }
 
 type WebSite =
-  { [<JsonProperty("@context")>]Context: string
-    [<JsonProperty("@type")>]Type: string
+  { [<JsonProperty("@context")>]
+    Context: string
+    [<JsonProperty("@type")>]
+    Type: string
     Author: Person
     Publisher: Person
     Headline: string
@@ -66,6 +67,7 @@ type WebSite =
 
   static member Create headline sameAs description image name url authorName =
     let authoringPerson = Person.Create authorName
+
     { Context = "https://schema.org"
       Type = "WebSite"
       Headline = headline
@@ -78,16 +80,18 @@ type WebSite =
       Publisher = authoringPerson }
 
 type WebPageEntity =
-  { [<JsonProperty("@type")>]Type: string
-    [<JsonProperty("@id")>]Id: string }
+  { [<JsonProperty("@type")>]
+    Type: string
+    [<JsonProperty("@id")>]
+    Id: string }
 
-  static member Create (uri: string) =
-    { Type = "WebPage"
-      Id = uri }
+  static member Create(uri: string) = { Type = "WebPage"; Id = uri }
 
 type BlogPosting =
-  { [<JsonProperty("@context")>]Context: string
-    [<JsonProperty("@type")>]Type: string
+  { [<JsonProperty("@context")>]
+    Context: string
+    [<JsonProperty("@type")>]
+    Type: string
     Headline: string
     DateModified: System.DateTime
     DatePublished: System.DateTime
@@ -98,39 +102,39 @@ type BlogPosting =
     Publisher: Person
     MainEntityOfPage: WebPageEntity }
 
-    static member Create headline dateModified datePublished authorName description image url =
-      let authoringPerson = Person.Create authorName
-      let mainEntity = WebPageEntity.Create url
-      { Context = "https://schema.org"
-        Type = "BlogPosting"
-        Headline = headline
-        DateModified = dateModified
-        DatePublished = datePublished
-        Author = authoringPerson
-        Description = description
-        Image = image
-        Url = url
-        Publisher = authoringPerson
-        MainEntityOfPage = mainEntity }
+  static member Create headline dateModified datePublished authorName description image url =
+    let authoringPerson = Person.Create authorName
+    let mainEntity = WebPageEntity.Create url
+
+    { Context = "https://schema.org"
+      Type = "BlogPosting"
+      Headline = headline
+      DateModified = dateModified
+      DatePublished = datePublished
+      Author = authoringPerson
+      Description = description
+      Image = image
+      Url = url
+      Publisher = authoringPerson
+      MainEntityOfPage = mainEntity }
 
 let jsonSerializationSettings =
-  JsonSerializerSettings(
-    ContractResolver = CamelCasePropertyNamesContractResolver()
-  )
+  JsonSerializerSettings(ContractResolver = CamelCasePropertyNamesContractResolver())
 
 let semanticContent (siteInfo: Globalloader.SiteInfo) (commonMeta: CommonMetadata) (postMeta: PostMetadata option) =
   // TODO: match if there is post meta or not and return other jsonld doc
   let webSite =
-    WebSite.Create commonMeta.Title
-                   [| "https://www.linkedin.com/in/gregor-beyerle"
-                      "https://twitter.com/GBeyerle"
-                      "https://github.com/WalternativE"
-                      "https://stackoverflow.com/users/story/4143281" |]
-                   commonMeta.Description
-                   commonMeta.Image
-                   siteInfo.author
-                   commonMeta.Url
-                   siteInfo.author
+    WebSite.Create
+      commonMeta.Title
+      [| "https://www.linkedin.com/in/gregor-beyerle"
+         "https://twitter.com/GBeyerle"
+         "https://github.com/WalternativE"
+         "https://stackoverflow.com/users/story/4143281" |]
+      commonMeta.Description
+      commonMeta.Image
+      siteInfo.author
+      commonMeta.Url
+      siteInfo.author
 
   JsonConvert.SerializeObject(webSite, jsonSerializationSettings)
 
@@ -228,6 +232,7 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
            | Post _ -> false
 
          let navClasses = "navbar-item is-tab"
+
          a [ Class(if isActive then navClasses + " is-active" else navClasses)
              Href p.link ] [
            !!(p.title.ToUpper())
@@ -269,7 +274,9 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
              Content commonMeta.Description ]
       yield! twitter commonMeta
       yield! openGraph siteInfo commonMeta postMeta
-      script [ Type "application/ld+json" ] [ !!(semanticContent siteInfo commonMeta postMeta) ]
+      script [ Type "application/ld+json" ] [
+        !!(semanticContent siteInfo commonMeta postMeta)
+      ]
       link [ Rel "canonical"
              Href canonicalUrl ]
       link [ Rel "icon"

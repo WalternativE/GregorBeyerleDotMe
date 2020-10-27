@@ -19,6 +19,7 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
   psi.CreateNoWindow <- true
   psi.WindowStyle <- ProcessWindowStyle.Hidden
   psi.UseShellExecute <- true
+
   try
     let proc = Process.Start psi
     proc.WaitForExit()
@@ -27,6 +28,8 @@ let generate (ctx: SiteContents) (projectRoot: string) (page: string) =
     output
   with ex ->
     printfn "EX: %s" ex.Message
+
     printfn
       "Please check you have installed the Sass compiler if you are going to be using files with extension .scss. https://sass-lang.com/install"
-    ""
+
+    System.String.Empty

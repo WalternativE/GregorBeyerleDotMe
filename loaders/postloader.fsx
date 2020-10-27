@@ -52,6 +52,7 @@ let getConfig (fileContent: string) =
 
   let splitKey (line: string) =
     let seperatorIndex = line.IndexOf(':')
+
     if seperatorIndex > 0 then
       let key =
         line.[..seperatorIndex - 1].Trim().ToLower()
@@ -103,9 +104,13 @@ let loadFile n =
   let summary, content = getContent text
 
   let file =
-    System.IO.Path.Combine(contentDir,
-                           (n |> System.IO.Path.GetFileNameWithoutExtension)
-                           + ".md").Replace("\\", "/")
+    System
+      .IO
+      .Path
+      .Combine(contentDir,
+               (n |> System.IO.Path.GetFileNameWithoutExtension)
+               + ".md")
+      .Replace("\\", "/")
 
   let link = file |> Globals.toPostLink
 
@@ -139,16 +144,12 @@ let loadFile n =
     let tagsOpt =
       config
       |> Map.tryFind "tags"
-      |> Option.map
-           (trimString
-            >> fun n -> n.Split ',' |> Array.toList)
+      |> Option.map (trimString >> fun n -> n.Split ',' |> Array.toList)
 
     defaultArg tagsOpt []
 
   let largeImage =
-    config
-    |> Map.find "large_image"
-    |> trimString
+    config |> Map.find "large_image" |> trimString
 
   let imageAttributionLink =
     config

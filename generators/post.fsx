@@ -69,10 +69,14 @@ let postLayout (post: Postloader.Post) =
               Src post.large_image ] []
       match post.image_attribution_link, post.image_attribution_text with
       | Some link, Some attributionText ->
-        figcaption [] [
-          !! "Image by "
-          a [ Href link; Target "_blank"; Rel "noopener" ] [ !! attributionText ]
-        ]
+          figcaption [] [
+            !! "Image by "
+            a [ Href link
+                Target "_blank"
+                Rel "noopener" ] [
+              !!attributionText
+            ]
+          ]
       | _ -> ()
     ]
     hgroup [] [

@@ -4,6 +4,7 @@ open Html
 
 let pinnedHero isMedium title link =
   let addedClass = if isMedium then " is-medium" else ""
+
   section [ Class(sprintf "hero is-info%s" addedClass) ] [
     div [ Class "hero-body" ] [
       div [ Class "container" ] [

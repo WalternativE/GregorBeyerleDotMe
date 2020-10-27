@@ -26,6 +26,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
        link = "/"
        isInTopNavigation = true
        changedAt = None })
+
   siteContent.Add
     ({ title = "About"
        description =
@@ -33,6 +34,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
        link = link "/about"
        isInTopNavigation = true
        changedAt = None })
+
   siteContent.Add
     ({ title = "Blog"
        description =
@@ -40,6 +42,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
        link = link "/blog"
        isInTopNavigation = true
        changedAt = None })
+
   siteContent.Add
     ({ title = "Imprint"
        description =

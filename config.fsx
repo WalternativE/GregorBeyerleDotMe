@@ -8,6 +8,7 @@ open Globals
 let postPredicate (projectRoot: string, page: string) =
   let fileName = Path.Combine(projectRoot, page)
   let ext = Path.GetExtension page
+
   if ext = ".md" then
     let ctn = File.ReadAllText fileName
     ctn.Contains("layout: post")
@@ -45,11 +46,7 @@ let config =
           OutputFile = ChangeExtension "css" }
         { Script = "post.fsx"
           Trigger = OnFilePredicate postPredicate
-          OutputFile =
-            Custom(fun s ->
-              s
-              |> toPostLink
-              |> fun s -> s.TrimStart('/')) }
+          OutputFile = Custom(fun s -> s |> toPostLink |> fun s -> s.TrimStart('/')) }
         { Script = "staticfile.fsx"
           Trigger = OnFilePredicate staticPredicate
           OutputFile = SameFileName }

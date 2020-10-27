@@ -10,6 +10,7 @@ type Utf8StringWriter() =
 let toPostLink (fileName: string) =
   let regex = """(\d{4}-\d{2}-\d{2})-(.*).md"""
   let ``match`` = Regex.Match(fileName, regex)
+
   if ``match``.Success then
     let datePart =
       ``match``.Groups.[1].Value
