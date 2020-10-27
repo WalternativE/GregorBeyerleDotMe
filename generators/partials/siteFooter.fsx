@@ -3,11 +3,11 @@
 open Html
 
 let link (fragment: string) =
-  #if WATCH
+#if WATCH
   let suffix = ".html"
-  #else
+#else
   let suffix = System.String.Empty
-  #endif
+#endif
 
   fragment + suffix
 
@@ -18,7 +18,7 @@ let siteFooter =
         div [ Class "column is-offset-2 content" ] [
           p [] [
             !! "© 2020 Gregor Beyerle | "
-            a [ Href (link "/imprint") ] [
+            a [ Href(link "/imprint") ] [
               !! " Imprint "
             ]
             !! " | Made with 🧡 and "
