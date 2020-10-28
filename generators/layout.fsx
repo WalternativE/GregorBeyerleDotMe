@@ -51,13 +51,34 @@ type Person =
 
   static member Create name = { Type = "Person"; Name = name }
 
+type ImageObject =
+  { [<JsonProperty("@type")>]
+    Type: string
+    Url: string}
+
+  static member CreateLogoResource (logo: string) =
+    { Type = "ImageObject"
+      Url = logo }
+
+type Organization =
+  { [<JsonProperty("@type")>]
+    Type: string
+    Logo: ImageObject
+    Name: string }
+
+  static member Create (logo: string) (name: string) =
+    let logoImage = ImageObject.CreateLogoResource logo
+    { Type = "Organization"
+      Logo = logoImage
+      Name = name }
+
 type WebSite =
   { [<JsonProperty("@context")>]
     Context: string
     [<JsonProperty("@type")>]
     Type: string
     Author: Person
-    Publisher: Person
+    Publisher: Organization
     Headline: string
     SameAs: string []
     Description: string
@@ -65,8 +86,9 @@ type WebSite =
     Name: string
     Url: string }
 
-  static member Create headline sameAs description image name url authorName =
+  static member Create headline sameAs description image name url authorName logo =
     let authoringPerson = Person.Create authorName
+    let publishingOrganization = Organization.Create logo authorName
 
     { Context = "https://schema.org"
       Type = "WebSite"
@@ -77,7 +99,7 @@ type WebSite =
       Name = name
       Url = url
       Author = authoringPerson
-      Publisher = authoringPerson }
+      Publisher = publishingOrganization }
 
 type WebPageEntity =
   { [<JsonProperty("@type")>]
@@ -99,12 +121,13 @@ type BlogPosting =
     Description: string
     Image: string
     Url: string
-    Publisher: Person
+    Publisher: Organization
     MainEntityOfPage: WebPageEntity }
 
-  static member Create headline dateModified datePublished authorName description image url =
+  static member Create headline dateModified datePublished authorName description image url logo =
     let authoringPerson = Person.Create authorName
     let mainEntity = WebPageEntity.Create url
+    let publishingOrganization = Organization.Create logo authorName
 
     { Context = "https://schema.org"
       Type = "BlogPosting"
@@ -115,28 +138,41 @@ type BlogPosting =
       Description = description
       Image = image
       Url = url
-      Publisher = authoringPerson
+      Publisher = publishingOrganization
       MainEntityOfPage = mainEntity }
 
 let jsonSerializationSettings =
   JsonSerializerSettings(ContractResolver = CamelCasePropertyNamesContractResolver())
 
 let semanticContent (siteInfo: Globalloader.SiteInfo) (commonMeta: CommonMetadata) (postMeta: PostMetadata option) =
-  // TODO: match if there is post meta or not and return other jsonld doc
-  let webSite =
-    WebSite.Create
-      commonMeta.Title
-      [| "https://www.linkedin.com/in/gregor-beyerle"
-         "https://twitter.com/GBeyerle"
-         "https://github.com/WalternativE"
-         "https://stackoverflow.com/users/story/4143281" |]
-      commonMeta.Description
-      commonMeta.Image
-      siteInfo.author
-      commonMeta.Url
-      siteInfo.author
-
-  JsonConvert.SerializeObject(webSite, jsonSerializationSettings)
+  let fullLogoPath = siteInfo.basePath + "/images/gbme_logo.png"
+  match postMeta with
+  | None ->
+      WebSite.Create
+        commonMeta.Title
+        [| "https://www.linkedin.com/in/gregor-beyerle"
+           "https://twitter.com/GBeyerle"
+           "https://github.com/WalternativE"
+           "https://stackoverflow.com/users/story/4143281" |]
+        commonMeta.Description
+        commonMeta.Image
+        siteInfo.author
+        commonMeta.Url
+        siteInfo.author
+        fullLogoPath
+      :> obj
+  | Some postMeta ->
+      BlogPosting.Create
+        commonMeta.Title
+        postMeta.ModifiedAt
+        postMeta.PublishedAt
+        siteInfo.author
+        commonMeta.Description
+        commonMeta.Image
+        commonMeta.Url
+        fullLogoPath
+      :> obj
+  |> fun entity -> JsonConvert.SerializeObject(entity, jsonSerializationSettings)
 
 let siteInfo (ctx: SiteContents) =
   ctx.TryGetValue<Globalloader.SiteInfo>()
@@ -279,10 +315,13 @@ let layout (ctx: SiteContents) (active: Active) bodyCnt =
       ]
       link [ Rel "canonical"
              Href canonicalUrl ]
-      link [ Rel "icon"
-             Type "image/png"
-             Sizes "32x32"
-             Href "/images/favicon.png" ]
+      link [ Rel "apple-touch-icon"; Sizes "180x180"; Href "/apple-touch-icon.png" ]
+      link [ Rel "icon"; Type "image/png"; Sizes "32x32"; Href "/favicon-32x32.png" ]
+      link [ Rel "icon"; Type "image/png"; Sizes "16x16"; Href "/favicon-16x16.png" ]
+      link [ Rel "manifest"; Href "/manifest.json" ]
+      link [ Rel "mask-icon"; Href "/safari-pinned-tab.svg";  Color "#0089f0" ]
+      meta [ Name "msapplication-TileColor"; Content "#0089f0" ]
+      meta [ Name "theme-color"; Content "#0089f0" ]
       link [ Rel "stylesheet"
              Type "text/css"
              Href "/style/main.css"
