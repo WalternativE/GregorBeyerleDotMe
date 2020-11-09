@@ -1,10 +1,9 @@
 ---
 layout: post
-title: Some nice post title
-description: Some nice description
+title: The Big Template
+description: This post holds all the different markdown command I can use in all my entries
 author: @GBeyerle
-published: 2020-09-29
-pinned: true
+pinned: false
 large_image: "/images/posts/some-blog-post/BlogHeaderPic.jpg"
 image_attribution_link: https://unsplash.com/photos/M5tzZtFCOfs
 image_attribution_text: Taylor Vick on Unsplash

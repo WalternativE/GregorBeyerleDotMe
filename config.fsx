@@ -12,6 +12,7 @@ let postPredicate (projectRoot: string, page: string) =
   if ext = ".md" then
     let ctn = File.ReadAllText fileName
     ctn.Contains("layout: post")
+    ctn.Contains("published:")
   else
     false
 

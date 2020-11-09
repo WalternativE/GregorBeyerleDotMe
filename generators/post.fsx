@@ -83,7 +83,7 @@ let postLayout (post: Postloader.Post) =
       h1 [ Class "is-size-1" ] [
         !!post.title
       ]
-      h2 [ Class "is-size-5" ] [
+      h2 [ Class "is-size-5 published-line" ] [
         !!(sprintf "Published %s" (published post))
       ]
     ]
@@ -95,7 +95,8 @@ let postLayout (post: Postloader.Post) =
 let extractConnectedPosts (page: string) (posts: Postloader.Post list) =
   let rec matchRemaining (posts: Postloader.Post list) =
     match posts with
-    | [] -> failwith "I found no matching post :("
+    | [] ->
+      failwith "I found no matching post :("
     | prev :: current :: next :: _ when current.file = page ->
         { Previous = Some prev
           Current = current

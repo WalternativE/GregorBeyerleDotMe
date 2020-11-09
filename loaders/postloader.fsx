@@ -183,6 +183,7 @@ let loader (projectRoot: string) (siteContent: SiteContents) =
   System.IO.Directory.GetFiles postsPath
   |> Array.filter (fun n -> n.EndsWith ".md")
   |> Array.map loadFile
+  |> Array.filter (fun post -> post.published.IsSome)
   |> Array.sortByDescending (fun post -> post.published)
   |> Array.iter siteContent.Add
 

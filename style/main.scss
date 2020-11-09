@@ -186,6 +186,10 @@ article {
   font-size: 1.1em;
 }
 
+.published-line {
+  margin-bottom: 16px;
+}
+
 .content figure {
   margin-left: 0;
   margin-right: 0;
@@ -254,7 +258,7 @@ aside.menu {
     display: none;
   }
 
-  max-width: 214px;
+  max-width: 160px;
   text-align: right;
   color: $off-white-80p;
   font-size: 0.9em;
