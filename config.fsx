@@ -35,7 +35,8 @@ let staticPredicate (projectRoot: string, page: string) =
    || page.Contains "package.json"
    || page.Contains "package-lock.json"
    || ext = ".fsx"
-   || ext = ".md")
+   || ext = ".md"
+   || ext = ".sh")
   |> not
 
 let scssPredicate (projectRoot: string, page: string) = page.Contains "main.scss"
