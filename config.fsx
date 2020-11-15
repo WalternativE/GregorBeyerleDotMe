@@ -11,8 +11,7 @@ let postPredicate (projectRoot: string, page: string) =
 
   if ext = ".md" then
     let ctn = File.ReadAllText fileName
-    ctn.Contains("layout: post")
-    ctn.Contains("published:")
+    ctn.Contains("layout: post") && ctn.Contains("published:")
   else
     false
 
@@ -35,7 +34,8 @@ let staticPredicate (projectRoot: string, page: string) =
    || page.Contains "global.json"
    || page.Contains "package.json"
    || page.Contains "package-lock.json"
-   || ext = ".fsx")
+   || ext = ".fsx"
+   || ext = ".md")
   |> not
 
 let scssPredicate (projectRoot: string, page: string) = page.Contains "main.scss"

@@ -21,7 +21,7 @@ let generate' (ctx: SiteContents) =
                   address [ Class "contact-address" ] [
                     span [] [ !! "Gregor Beyerle" ]
                     span [] [
-                      !! "hello (at) gregorbeyerle (dot) me"
+                      !! "gregor_beyerle (at) outlook (dot) com"
                     ]
                   ]
                 ]
@@ -62,9 +62,11 @@ use is known."
             ]
           ]
         ]
-        div [ Class "filling-with-hero-content__hero-wrapper" ] [
-          PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
-        ]
+        if pinnedPost.IsSome then
+          let pinnedPost = pinnedPost.Value
+          div [ Class "filling-with-hero-content__hero-wrapper" ] [
+            PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
+          ]
       ] ]
 
 let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

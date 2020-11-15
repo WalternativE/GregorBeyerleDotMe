@@ -183,7 +183,7 @@ let pinnedPost (ctx: SiteContents) =
   |> Option.defaultValue Seq.empty
   |> Seq.sortByDescending (fun post -> post.published)
   |> Seq.filter (fun post -> post.pinned)
-  |> Seq.head
+  |> Seq.tryHead
 
 let injectWebsocketCode (webpage: string) =
   let websocketScript = """

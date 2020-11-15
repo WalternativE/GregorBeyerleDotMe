@@ -19,7 +19,7 @@ let generate' (ctx: SiteContents) =
                     !! "Hello there! Glad you found me!"
                   ]
                   p [ Class "about-paragraph" ] [
-                    !! @"My name is Gregor, I'm from beautiful Austria 🌄 where I work, study and live. I'm a software developer (or software engineer, or coder, or programmer or full-stack-engineer - you choose) and I like to build stuff 👨‍💻"
+                    !! @"My name is Gregor (he/him), I'm from beautiful Austria 🌄 where I work, study and live. I'm a software developer (or software engineer, or coder, or programmer or full-stack-engineer - you choose) and I like to build stuff 👨‍💻"
                   ]
                   p [ Class "about-paragraph" ] [
                     !! @"My most recent learning journey focuses on all things Data Science 🔬 and Machine Learning 🧠, especially where those topics can be used to create fun and useful applications (favorably on the web)."
@@ -43,7 +43,7 @@ let generate' (ctx: SiteContents) =
                   p [ Class "about-paragraph" ] [
                     !! "Mail me at"
                     b [] [
-                      !! "hello (at) gregorbeyerle (dot) me"
+                      !! "gregor_beyerle (at) outlook (dot) com"
                     ]
                   ]
                 ]
@@ -51,9 +51,11 @@ let generate' (ctx: SiteContents) =
             ]
           ]
         ]
-        div [ Class "filling-with-hero-content__hero-wrapper" ] [
-          PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
-        ]
+        if pinnedPost.IsSome then
+          let pinnedPost = pinnedPost.Value
+          div [ Class "filling-with-hero-content__hero-wrapper" ] [
+            PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
+          ]
       ] ]
 
 let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

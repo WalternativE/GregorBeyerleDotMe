@@ -91,7 +91,9 @@ let generate' (ctx: SiteContents) =
             ]
           ]
         ]
-        PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
+        if pinnedPost.IsSome then
+          let pinnedPost = pinnedPost.Value
+          PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
       ] ]
 
 let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx |> Layout.render ctx

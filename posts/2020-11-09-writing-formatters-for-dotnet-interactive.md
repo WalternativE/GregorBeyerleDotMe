@@ -3,8 +3,7 @@ layout: post
 title: Writing Fromatter Extensions for .NET Interactive
 description: .NET interactive is a pretty new and exiting way to do explorative development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questiosn we can answer by looking at outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
 author: @GBeyerle
-published: 2020-09-30
-pinned: true
+pinned: false
 large_image: "/images/posts/some-blog-post/BlogHeaderPic.jpg"
 ---
 

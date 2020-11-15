@@ -34,12 +34,16 @@ let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
     (Layout.Page "Blog")
-    [ PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
+    [ if pinnedPost.IsSome && posts |> Seq.length |> ((<) 0) then
+        let pinnedPost = pinnedPost.Value
+        PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
       section [ Class "section" ] [
         div [ Class "container" ] [
           div [ Class "columns" ] [
             div [ Class "column is-8 is-offset-2" ] [
-              ul [] postLinks
+              match postLinks with
+              | [] -> span [ Class "is-size-3" ] [ !! "I'm currently working on my first post 👷‍♂️ Stay tuned!" ]
+              | _ -> ul [] postLinks
             ]
           ]
         ]
