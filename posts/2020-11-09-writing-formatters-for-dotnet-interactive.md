@@ -3,7 +3,8 @@ layout: post
 title: Writing Fromatter Extensions for .NET Interactive
 description: .NET interactive is a pretty new and exiting way to do explorative development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questiosn we can answer by looking at outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
 author: @GBeyerle
-pinned: false
+published: 2020-11-15
+pinned: true
 large_image: "/images/posts/some-blog-post/BlogHeaderPic.jpg"
 ---
 
@@ -146,3 +147,43 @@ display aNotVeryNiceGiftBasket
 Much better now! This example was - to be totally honest - not very useful, though. With the basics out of the way we can look at a more useful example.
 
 ## <a name="charting-with-plotly-net">Charting with Plotly.NET</a>
+
+On my search for a plotting library, that actually allows subplots (which `XPlot.Plotly` doesn't) I stumbled upon `Plotly.NET`. It started out (as many great sciency F# libraries) at the institute for [Computational Systems Biology - CSB Kaiserslautern](https://github.com/CSBiology) but was moved to the [offical Plotly organization](https://github.com/plotly/Plotly.NET) some time ago. The current "approved" version is still in alpha but in general it feels much more mature than that.
+
+I often use plots for looking at the distribution of a dataset. Let's say we roll a 'random' die in .NET and want to see how many ones and twos and threes and fours and sixes we have rolled and take in the data in a visual appealing way I'd go and look at a histogram for that. In `Plotly.NET`, that's pretty easy to do.
+
+```fsharp
+open System
+open Plotly.NET
+
+let rollUniformDice (rnd: Random) =
+    rnd.Next(1, 7)
+    |> int
+
+let rnd = Random(Seed = 1)
+let diceRolls = List.init 1000 (fun _ -> rollUniformDice rnd)
+
+diceRolls
+|> Chart.Histogram
+```
+
+If we would be using `XPlot.Plotly` we'd be looking at a nice histogram by now. That's the case because the .NET Interactive developers wrote a formatter for us. They obviously didn't do so for `Plotly.NET` and so we only get to see some object properties and nothing else. What a shame! Good, that we learned how to write a custom formatter! Similar to the implementation for `XPlot.Plotly` the library has basically already done all the leg work for us. To get the whole thing working I basically had to call a single method - that's it. At least it would be if there weren't a bug, that - as of writing this - breaks a piece of JavaScript in VSCode. That's also not too hard to monkeypatch, though.
+
+```fsharp
+module PlotlyFormatter =
+    open System.Text
+    open GenericChart
+
+    Formatter.Register<GenericChart>((fun chart writer ->
+        let html = toChartHTML chart
+        let hackedHtml =
+            html.Replace(
+                """var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-latest.min'}})""",
+                """var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-latest.min'}}) || require;"""
+            )
+        writer.Write(hackedHtml)), HtmlFormatter.MimeType)
+```
+
+When we try to display the same plotly chart from before we'll see a nice interactive histogram. Neat!
+
+![The output for a Plotly.NET chart with a custom formatter](/images/posts/writing-formatters-for-dotnet-interactive/plotly_output_with_formatter.jpg)

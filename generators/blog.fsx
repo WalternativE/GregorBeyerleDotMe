@@ -34,7 +34,7 @@ let generate' (ctx: SiteContents) =
   Layout.layout
     ctx
     (Layout.Page "Blog")
-    [ if pinnedPost.IsSome && posts |> Seq.length |> ((<) 0) then
+    [ if pinnedPost.IsSome && Seq.length posts > 1 then
         let pinnedPost = pinnedPost.Value
         PinnedHero.pinnedHero false pinnedPost.title pinnedPost.link
       section [ Class "section" ] [
