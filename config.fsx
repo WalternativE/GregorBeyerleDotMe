@@ -22,6 +22,7 @@ let staticPredicate (projectRoot: string, page: string) =
    || page.Contains "_bin"
    || page.Contains "_lib"
    || page.Contains "_data"
+   || page.Contains "docs"
    || page.Contains "_settings"
    || page.Contains "_config.yml"
    || page.Contains ".sass-cache"
