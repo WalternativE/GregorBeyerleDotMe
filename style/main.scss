@@ -258,7 +258,14 @@ aside.menu {
     display: none;
   }
 
-  max-width: 160px;
+  @media(min-width: $tablet) {
+    max-width: 150px;
+  }
+
+  @media(min-width: $desktop) {
+    max-width: 200px;
+  }
+
   text-align: right;
   color: $off-white-80p;
   font-size: 0.9em;
