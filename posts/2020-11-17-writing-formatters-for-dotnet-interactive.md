@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Writing Fromatter Extensions for .NET Interactive
-description: .NET Interactive is a pretty new and exiting way to do explorative development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questions we can answer by looking at formatted outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
+title: Writing Formatter Extensions for .NET Interactive
+description: .NET Interactive is a pretty new and exiting way to do exploratory development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questions we can answer by looking at formatted outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
 author: @GBeyerle
 published: 2020-11-17
 pinned: true
@@ -10,15 +10,15 @@ image_attribution_link: https://unsplash.com/photos/I4YsI1zWq_w
 image_attribution_text: Katya Austin on Unsplash
 ---
 
-.NET Interactive is a pretty new and exiting way to do explorative development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questions we can answer by looking at formatted outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
+.NET Interactive is a pretty new and exiting way to do exploratory development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questions we can answer by looking at formatted outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
 
 <!--more-->
 
 ## <a name="interactive-programming">Interactive Programming</a>
 
-Many programming languages offer interactive environments, that allow you write your code in little fast paced experiments. Iterative working to the max! The most basic form of this is the Read Evaluate Print Loop (REPL), which is astaple of languages like Python, Julia, R and F#. In the greater .NET ecosystem (which is pretty C# heavy) interactive programming hasn't been a thing, really. With the advent of [.NET Interacitve](https://github.com/dotnet/interactive) this has begun to change. Jupyter Notebooks - interactive, web based, coding environments, that allow to mix prose, source code and formatted outputs - have been the defacto standard for communicating experiments within the Data Science and Machine Learning community for a while now but mostly for scripted languages and not really outside of the aforementioned niches.
+Many programming languages offer interactive environments, that allow you write your code in little fast paced experiments. Iterative working to the max! The most basic form of this is the Read Evaluate Print Loop (REPL), which is a staple of languages like Python, Julia, R and F#. In the greater .NET ecosystem (which is pretty C# heavy) interactive programming hasn't been a thing, really. With the advent of [.NET Interactive](https://github.com/dotnet/interactive) this has begun to change. Jupyter Notebooks - interactive, web based, coding environments, that allow to mix prose, source code and formatted outputs - have been the defacto standard for communicating experiments within the Data Science and Machine Learning community for a while now but mostly for scripted languages and not really outside of the aforementioned niches.
 
-With its latest push to make .NET a target for Machine Learning projects, Microsoft has shown great commitment to make all common .NET languages (Powershell, F# and C#) work well in Jupyter Notebooks. It even went a step beoyond and started building great tooling for VSCode, that makes it possible to run and edit .NET interactive notebooks directly in the editor. Their [latest blog post](https://devblogs.microsoft.com/dotnet/net-interactive-preview-3-vs-code-insiders-and-polyglot-notebooks/) - as of writng this - shows how to get started with .NET interactive in VSCode Insiders. I highly encourage you to try it out! While you're at it you can also check out the [nteract desktop application](https://nteract.io/applications) which was one of the first apps I'm aware of, that allowed people to have a more integrated development exprience while working with interactive notebooks.
+With its latest push to make .NET a target for Machine Learning projects, Microsoft has shown great commitment to make all common .NET languages (Powershell, F# and C#) work well in Jupyter Notebooks. It even went a step beyond and started building great tooling for VSCode, that makes it possible to run and edit .NET interactive notebooks directly in the editor. Their [latest blog post](https://devblogs.microsoft.com/dotnet/net-interactive-preview-3-vs-code-insiders-and-polyglot-notebooks/) - as of writing this - shows how to get started with .NET interactive in VSCode Insiders. I highly encourage you to try it out! While you're at it you can also check out the [nteract desktop application](https://nteract.io/applications) which was one of the first apps I'm aware of, that allowed people to have a more integrated development experience while working with interactive notebooks.
 
 All the sources I mention in this blog post can be found in [this repo](https://github.com/WalternativE/WritingDotNetInteractiveFormatters) in case you might want to experiment with the code yourself.
 
@@ -68,7 +68,7 @@ henry
 
 ![The standard format of a plain old clr object](/images/posts/writing-formatters-for-dotnet-interactive/simple_poco_formatted.jpg)
 
-This looks like the output for the record above, doesn't it? Well it does because it uses the same formatter. Records are just POCOs with a bit of compiler magic sprinkeled on top. As we'll see with the next example of a nested POCO this extra compiler magic pays of in interactive programming environments (besides being great in general, of course).
+This looks like the output for the record above, doesn't it? Well it does because it uses the same formatter. Records are just POCOs with a bit of compiler magic sprinkled on top. As we'll see with the next example of a nested POCO this extra compiler magic pays of in interactive programming environments (besides being great in general, of course).
 
 ```fsharp
 type DogHotel(name: string, inhabitants: Dog list) =
@@ -93,7 +93,7 @@ type Fruit =
 Apple
 ```
 
-For simple case identifiers without any data .NET Interacitve just displays the identifier name. In this case we will read `Apple`. How would that differ for more complicated union types?
+For simple case identifiers without any data .NET Interactive just displays the identifier name. In this case we will read `Apple`. How would that differ for more complicated union types?
 
 ```fsharp
 type GiftBasket =
@@ -111,7 +111,7 @@ display [ aNiceGiftBasket; aNotVeryNiceGiftBasket ]
 
 ![Different ways to format discriminated unions with data using the dotnet interactive standard formatter](/images/posts/writing-formatters-for-dotnet-interactive/du_withdata_formatted.jpg)
 
-There's a bit to unpack here. The first line displays the data of the nice gift basket which is a `FruitBasket`. We get the descriptive `Fruits` table header because that's the name we gave to the field. For the `SpoiledFruitBasket` we did not specify this field name, so we'll get the standard `Item` label. It seems a bit odd to me, that we don't get to see which case identifier we're currently looking at. It gets even more odd when we see that the standard formatter dispalys the case identifier types correctly for lists. I'm not entirely sure why that's the case but I'll use my confusion about this odd choice to show how to register custom formatters.
+There's a bit to unpack here. The first line displays the data of the nice gift basket which is a `FruitBasket`. We get the descriptive `Fruits` table header because that's the name we gave to the field. For the `SpoiledFruitBasket` we did not specify this field name, so we'll get the standard `Item` label. It seems a bit odd to me, that we don't get to see which case identifier we're currently looking at. It gets even more odd when we see that the standard formatter displays the case identifier types correctly for lists. I'm not entirely sure why that's the case but I'll use my confusion about this odd choice to show how to register custom formatters.
 
 ## <a name="simple-plain-text-formatter">Simple Plain Text Formatter</a>
 
@@ -128,7 +128,7 @@ module GiftBasketFormatter =
 
 We don't really need to create a module here but it makes sense to use one if you open up more namespaces and don't want to pollute your notebook scope with the extra `open` statements. We can access the `Formatter` class because .NET interactive loads a couple of assemblies in the background (as I mentioned before). We can use it to set the preferred MIME type for the type we wish to format. I think about it like I would about content type negotiation in a web context: .NET interactive gets the request to display a value, looks at its type, checks its default MIME type and selects the fitting formatter for the MIME type. You have to force its hand sometimes when a preexisting formatter would have the greater precedence, that's why I explicitly set the preferred MIME type.
 
-Now that we specified, that `GiftBasket` values should be formatted as plaintext we can register a formatter. The `Register` method offers a bunch of different overloads. Currently - as of writing this - they aren't really documented so I basically roll with the ones, that work for my usecases and are convenient to use. The easiest version I've found so far is the one which takes an `Action<'T, TextWriter>` delegate where `'T` would be the type you want to format. In most cases we are totally fine by not explicitly creating the action delegate and defaulting to the much nicer F# lambda expression. I had problems with type inferences in some edge cases, though, so your mileage may vary 🤷‍♂️ Just remember, that you can always be more implicit in F# if you really need to and you'll be fine 👍
+Now that we specified, that `GiftBasket` values should be formatted as plaintext we can register a formatter. The `Register` method offers a bunch of different overloads. Currently - as of writing this - they aren't really documented so I basically roll with the ones, that work for my use cases and are convenient to use. The easiest version I've found so far is the one which takes an `Action<'T, TextWriter>` delegate where `'T` would be the type you want to format. In most cases we are totally fine by not explicitly creating the action delegate and defaulting to the much nicer F# lambda expression. I had problems with type inferences in some edge cases, though, so your mileage may vary 🤷‍♂️ Just remember, that you can always be more implicit in F# if you really need to and you'll be fine 👍
 
 With the new formatter in place we can try out to display the different `GiftBasket` values again.
 
@@ -143,7 +143,7 @@ Much better now! This example was - to be totally honest - not very useful, thou
 
 ## <a name="charting-with-plotly-net">Charting with Plotly.NET</a>
 
-On my search for a plotting library, that actually allows subplots (which `XPlot.Plotly` doesn't) I stumbled upon `Plotly.NET`. It started out (as many great sciency F# libraries) at the institute for [Computational Systems Biology - CSB Kaiserslautern](https://github.com/CSBiology) but was moved to the [offical Plotly organization](https://github.com/plotly/Plotly.NET) some time ago. The current "approved" version is still in alpha but in general it feels much more mature than that.
+On my search for a plotting library, that actually allows subplots (which `XPlot.Plotly` doesn't) I stumbled upon `Plotly.NET`. It started out (as many great science-y F# libraries) at the institute for [Computational Systems Biology - CSB Kaiserslautern](https://github.com/CSBiology) but was moved to the [official Plotly organization](https://github.com/plotly/Plotly.NET) some time ago. The current "approved" version is still in alpha but in general it feels much more mature than that.
 
 I often use plots for looking at how the values within a dataset are distributed. Just to get a general feel, you know? Let's say we roll a "random" die in .NET and want to see how many ones and twos and threes and fours and sixes we have rolled. I'd usually go and look at a histogram for that. In `Plotly.NET`, that's pretty easy to do.
 
@@ -183,7 +183,7 @@ When we try to display the same plotly chart from before we'll see a nice intera
 
 ![The output for a Plotly.NET chart with a custom formatter](/images/posts/writing-formatters-for-dotnet-interactive/plotly_output_with_formatter.jpg)
 
-Looking at such a histogram, it doesn't take me too long to recognize, that our "dice rolls" are uniformly distributed. This makes sense because the .NET standard random generator is - in fact - a generator for uniformly distributed numbers. With this knowledge (and a bit of internet research) we can even build our own normally distributed random generator. Validating if it works would take some math I don't really know too much about, so I'd just take the more intutive route and look at the distribution in a histogram. If it looks like a bell-curve it's good enough for me.
+Looking at such a histogram, it doesn't take me too long to recognize, that our "dice rolls" are uniformly distributed. This makes sense because the .NET standard random generator is - in fact - a generator for uniformly distributed numbers. With this knowledge (and a bit of internet research) we can even build our own normally distributed random generator. Validating if it works would take some math I don't really know too much about, so I'd just take the more intuitive route and look at the distribution in a histogram. If it looks like a bell-curve it's good enough for me.
 
 ```fsharp
 let normalRandom (rnd: Random) =
@@ -265,7 +265,9 @@ Instead of a raw `Formatter.Register` call we define a type and implement the `I
 
 The [official docs](https://github.com/dotnet/interactive/blob/main/docs/extending-dotnet-interactive.md) on writing extensions have some pointers on how to get started. They don't really talk about the extra bits you need in your project file so I thought we should take the time and do it here. I'm still unsure about the `ItemGroup`, that excludes items from the `bin` directory. I assume, that this is mainly meant for generated assets that could get referenced in the package but as they are very consistent with this even in extension packages, that don't have any generated content I'd just play it save and leave it as is. It didn't make any difference in my tests, though, so there should be no harm in omitting this.
 
-The second addition is far more important. Kernel extensions are only picked up by .NET Interactive if they are contained within the `interactive/extensions/dotnet` folder of your NuGet package. You really have to specify this exactly this way or it won't work - no way around that. That's it. That's all the things you need to make your .NET Interactive extension sharable. I personally think, that this is super awesome. I've already seen people using [Fable](https://fable.io/) to embed React apps into interacitve notebooks. With the power to transform any datatype into some web-digestable format the opportunities are virtually limitless.
+The second addition is far more important. Kernel extensions are only picked up by .NET Interactive if they are contained within the `interactive/extensions/dotnet` folder of your NuGet package. You really have to specify this exactly this way or it won't work - no way around that. That's it. That's all the things you need to make your .NET Interactive extension sharable. I personally think, that this is super awesome. I've already seen people using [Fable](https://fable.io/) to embed React apps into interactive notebooks. With the power to transform any datatype into some web-digestible format the opportunities are virtually limitless.
+
+Be aware, that as of now not all packages you'd need to build an extension are in the public NuGet.org repositories. They aren't private, though, so you can always try out the experimental bits produced by Microsoft. I took the [NuGet.config file](https://github.com/dotnet/interactive/blob/main/NuGet.config) the .NET Interactive team is using internally and put it in the root of the solutions where I develop my kernel extensions which resolves all sorts of dependency issues. I'm pretty sure, that when the times come to officially release .NET interactive this step will become unnecessary.
 
 ## <a name="a-shameless-plug-for-deedle">A Shameless Plug for Deedle</a>
 
