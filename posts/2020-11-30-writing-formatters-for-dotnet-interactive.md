@@ -3,7 +3,7 @@ layout: post
 title: Writing Formatter Extensions for .NET Interactive
 description: .NET Interactive is a pretty new and exiting way to do exploratory development with F#. One important thing about exploration is the visual inspection of your outputs. What fields are in those records? What's the content of this list? How would this data look in a bar chart or in a scatter plot? All questions we can answer by looking at formatted outputs. But how does .NET interactive know how to display these outputs for us in a form, that tells us what we need to know? In many cases (most cases even when you look at how big the .NET ecosystem is) it simply doesn't. But that's ok because we have the tools to write our own formatters and share them with the rest of the world.
 author: @GBeyerle
-published: 2020-11-17
+published: 2020-11-30
 pinned: true
 large_image: "/images/posts/writing-formatters-for-dotnet-interactive/FormattingInDotnetInteractive.jpg"
 image_attribution_link: https://unsplash.com/photos/I4YsI1zWq_w
@@ -21,6 +21,8 @@ Many programming languages offer interactive environments, that allow you write 
 With its latest push to make .NET a target for Machine Learning projects, Microsoft has shown great commitment to make all common .NET languages (Powershell, F# and C#) work well in Jupyter Notebooks. It even went a step beyond and started building great tooling for VSCode, that makes it possible to run and edit .NET interactive notebooks directly in the editor. Their [latest blog post](https://devblogs.microsoft.com/dotnet/net-interactive-preview-3-vs-code-insiders-and-polyglot-notebooks/) - as of writing this - shows how to get started with .NET interactive in VSCode Insiders. I highly encourage you to try it out! While you're at it you can also check out the [nteract desktop application](https://nteract.io/applications) which was one of the first apps I'm aware of, that allowed people to have a more integrated development experience while working with interactive notebooks.
 
 All the sources I mention in this blog post can be found in [this repo](https://github.com/WalternativE/WritingDotNetInteractiveFormatters) in case you might want to experiment with the code yourself.
+
+A short disclaimer: please be aware, that everything connected to .NET Interactive is still pretty bleeding edge and therefore quite unstable. Nevertheless, right now is a good point in time to start using it cautiously and to provide feedback to the maintainers (or even fix some things yourself). If you find something in this post, that doesn't work for you anymore because of a change don't hesitate to reach out. I'll do my best to update it as soon as possible.
 
 ## <a name="default-formatting">Default Formatting</a>
 
