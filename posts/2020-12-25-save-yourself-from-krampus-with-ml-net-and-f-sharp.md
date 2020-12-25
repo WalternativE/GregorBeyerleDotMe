@@ -1,20 +1,20 @@
 ---
 layout: post
 title: Save yourself from Krampus with ML.NET and F#
-description: Description
+description: This is the first year I've ever contributed to the F# Advent's Calendar. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget - we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus.
 author: @GBeyerle
 published: 2020-12-25
 pinned: true
-large_image: "/images/posts/writing-formatters-for-dotnet-interactive/FormattingInDotnetInteractive.jpg"
+large_image: "/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/IsItKrampusBlogHeader.jpg"
 image_attribution_link: https://unsplash.com/photos/po1ffK4lLMw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink
 image_attribution_text: Photo by Alessio Zaccaria on Unsplash
 ---
 
-This is the first year I've ever contributed to the [F# Advent's Calendar](https://sergeytihon.com/2020/10/22/f-advent-calendar-in-english-2020/). For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget: we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us save from Krampus. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus.
+This is the first year I've ever contributed to the [F# Advent's Calendar](https://sergeytihon.com/2020/10/22/f-advent-calendar-in-english-2020/). For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget: we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus.
 
 <!--more-->
 
-What does end-to-end even mean in this context? Usually when I go through a tutorial to learn some machine learning concept I tend to find a prepared notebook, a tidy dataset and a predefined use case. I just have to fill in the last couple of steps and by the end I hopefully got some intuition about the concept I wanted to learn in isolation. That's fine but usually whenever I then try to build a more complete app myself I find out, that I'm at a loss. How do I get to the point where I can use my new knowledge? In this post I want to take a step back and start from square zero.
+What does end-to-end even mean in this context? Usually when I go through a tutorial to learn some machine learning concept I tend to find a prepared notebook, a tidy dataset and a predefined use case. I just have to fill in the last couple of steps and by the end I hopefully got some intuition about the concept I wanted to learn in isolation. That's fine but usually whenever I then try to build a more complete app myself I find out, that I'm at a loss. How do I get to the point where I can use my new knowledge? In this post I will try to take a look at the complete process. Wish me luck 🤞
 
 ## <a name="the-big-picture">The Big Picture</a>
 
@@ -29,7 +29,7 @@ If you are interested in any particular part of the article just skip between wh
 
 ## <a name="data-acquisition-with-canopy">Data Acquisition with Canopy</a>
 
-There are a ton of images on the internet. One of the easiest ways to get to the ones you want to have for your dataset is to just use a search engine like Google. Unfortunately, there isn't really an API (at least if you don't want to use [Custom Search](https://developers.google.com/custom-search/v1/overview)) to use image search programmatically. As many of Google's products, it isn't super accessible to machines (I hope the irony isn't lost on them). Good thing, that there is [Canopy](https://lefthandedgoat.github.io/canopy/): a friendly F# API for selenium to simulate a human using a browser. This makes even JavaScript heavy applications which try to hide data from you (like Google search) pretty machine-accessible. If you want to see the complete code you can find it in the `DataCollection.ipynb` notebook in the accompanying repository.
+There are a ton of images on the internet. One of the easiest ways to get to the ones you want to have for your dataset is to just use a search engine like Google. Unfortunately, there isn't really an API (at least if you don't want to use [Custom Search](https://developers.google.com/custom-search/v1/overview)) to use image search programmatically. As many of Google's products, it isn't super accessible to machines (I hope the irony isn't lost on them). Good thing, that there is [Canopy](https://lefthandedgoat.github.io/canopy/): a friendly F# API for selenium to simulate a human using a browser. This makes even JavaScript heavy applications which try to hide data from you (like Google search) pretty machine-accessible. If you want to see the complete code you can find it in the `DataCollection.ipynb` notebook in the [accompanying repository](https://github.com/WalternativE/IsItKrampus.NET).
 
 ```fsharp
 let getImgUrls (n: int) (query: string) =
@@ -130,7 +130,7 @@ One of the coolest developments in the F# community is the [SAFE Stack](https://
 
 ![data preparation application in action](/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/data_prep.gif)
 
-And as you can see it doesn't really take much to get where I wanted to go anyway. A simple UI, a couple of buttons and an element to create a bounding box for a crop. Batteries came basically included, only the cropping element was custom made and even that was achieved in almost no time by writing a Fable wrapper for the [React Easy Crop](https://github.com/ricardo-ch/react-easy-crop) component. The remote-procedure-call (RPC) API just included serving up random, unprocessed images, throwing away unfit images and receiving instructions to correctly apply  crops (using [ImageSharp](https://github.com/SixLabors/ImageSharp) - the best .NET cross-platform image processing library out there) and save the labels. If you want to look at my terrible code you'll find it in the the `IsItKrampus.NET.DataSet.*` projects in the accompanying repository.
+And as you can see it doesn't really take much to get where I wanted to go anyway. A simple UI, a couple of buttons and an element to create a bounding box for a crop. Batteries came basically included, only the cropping element was custom made and even that was achieved in almost no time by writing a Fable wrapper for the [React Easy Crop](https://github.com/ricardo-ch/react-easy-crop) component. The remote-procedure-call (RPC) API just included serving up random, unprocessed images, throwing away unfit images and receiving instructions to correctly apply  crops (using [ImageSharp](https://github.com/SixLabors/ImageSharp) - the best .NET cross-platform image processing library out there) and save the labels. If you want to look at my terrible code you'll find it in the the `IsItKrampus.NET.DataSet.*` projects in the [accompanying repository](https://github.com/WalternativE/IsItKrampus.NET).
 
 ## <a name="training-the-model">Training the Model</a>
 
@@ -226,4 +226,29 @@ Now, that there is a trained model we can save it, load it, create a prediction 
 
 ## <a name="building-an-app">Building an App</a>
 
-You can't finish an end-to-end demonstration without an end-product.
+You can't finish an end-to-end demonstration without an end-product. For this project I thought about building a nice web application, that allows you to upload your own images or provide an image URI and classify them using some serverless component (because it is basically free to host and I'm a short on cloud-money). Because I've never used it I went with the new Docker image based AWS Lambda functions and a [Bolero](https://fsbolero.io/) (Blazor for F# people) frontend. The application isn't particularly exciting and should just demo how one might consume the model in the wild (to get away from Krampus).
+
+![Using the finished model in a Bolero app calling an AWS lambda function](/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/bolero_inference.gif)
+
+It works! At this point we can classify images from the safety of a nice web application. It's nothing special, really, but the interested reader might find some special bits in the source code. The `IsItKrampus.NET.App.*` folders in the [accompanying repository](https://github.com/WalternativE/IsItKrampus.NET) contain all the bits necessary to work with this app and its backing Lambda function.
+
+## <a name="where-to-go-from-here">Where To Go From Here</a>
+
+When I set out to work on this project I wanted to do a bit more than I finally accomplished. Shocking, isn't it? Things I'd have on my list if I had more time to work right now would be:
+
+### Automation
+
+[FAKE](https://fake.build/) is a F# build runner. It runs using F# script files which means, that you can pretty much every .NET library in your build and deploy scripts. No YAML, no special language - just good old honest F#. On this basis I could imagine incorporating ML.NET specific retraining and model deployment processes. FAKE plays well with every CI, that allows to execute dotnet tools (or arbitrary shell commands) so it is easy to integrate into virtually any CI/CD environment.
+
+### MLOps
+
+ML Ops is the current specialized term to talk about continuous integration and continuous deployment but for machine learning related tasks. Alex Slotte has been writing [MLOps.NET](https://github.com/aslotte/MLOps.NET) to tackle exactly this for ML.NET based models. It helps you to track experiments, log metrics, store versioned models and prepare deployments.
+
+### Deployment of the Inference App
+
+I was a bold, bold boy to try out the more bleeding edge of technology for this use case. I learned a lot and there is a lot of fun stuff in this little experiment but I didn't manage to fully deploy the image based AWS Lambda function. As it was just some odd behavior with the API Gateway trigger (the thing that makes the function accessible via a plain old HTTP endpoint) I'd imagine, that it wouldn't take forever but that's hard to tell. I might - one day - write a follow up post on the progress.
+
+
+### Switching from Classification to Real Time Detection
+
+Image classification is nice and relatively easy to handle with ML.NET. Unfortunately it isn't really build for real time video feeds and it doesn't really tell you how many "Krampus instances" are around you and where you would find them. Other network architectures like the famed [YOLO](https://arxiv.org/abs/1506.02640) are much better fits for this. Unfortunately ML.NET doesn't offer a way to do custom training for this network type. Maybe it will get added in the future, maybe it won't. In any case it might be possible to build something from scratch using [DiffSharp](https://diffsharp.github.io/) or [TensorFlow.NET](https://github.com/SciSharp/TensorFlow.NET). I could also just use Python...but that would be boring.
