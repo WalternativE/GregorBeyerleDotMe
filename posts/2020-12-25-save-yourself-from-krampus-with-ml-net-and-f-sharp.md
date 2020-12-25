@@ -134,7 +134,7 @@ And as you can see it doesn't really take much to get where I wanted to go anywa
 
 ## <a name="training-the-model">Training the Model</a>
 
-Training the model is usually the step which interests people the most. It's also the place where I (and many practitioners if I'm not mistaken) spend the least amount of time. Not because I don't like it (I love it - even though I'm still basically at the very beginning of my journey) but because I usually use an existing set of tools rather than coming up with my own stuff. For this use-case I already know, that I want to use a CNN, I already know the architecture (Inception v3) and I already know I want to do it in .NET. [ML.NET](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) is a open source library developed by Microsoft which allows me to do exactly that.
+Training the model is usually the step which interests people the most. It's also the place where I (and many practitioners if I'm not mistaken) spend the least amount of time. Not because I don't like it (I love it - even though I'm still basically at the very beginning of my journey) but because I usually use an existing set of tools rather than coming up with my own stuff. For this use-case I already know, that I want to use a CNN, I already know the architecture (Inception v3) and I already know I want to do it in .NET. [ML.NET](https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet) is an open source library developed by Microsoft which allows me to do exactly that.
 
 ML.NET supports a couple of scenarios for image classification. You could take a custom model trained in Azure Cognitive Services and use ML.NET's Tensorflow API to consume it. You could use an ONNX (an open standard to represent machine learning models) model and use it to classify your images. Or, you could use transfer learning on top of an included pre-trained model. The last option allows you to train your model on your own machine while saving countless hours of training time (given that the pre-trained network and its pre-learned labels fits to your use case). Luis Quintanilla already wrote [a long form article](https://www.luisquintanilla.me/2020/12/14/image-classification-mlnet-fsadvent2020/) on image transfer learning using ML.NET for the F# Advent Calendar so I'll just focus on the tweaks I used to teach my computer how to alert me of Krampus.
 
@@ -218,7 +218,7 @@ let augmentedTrain =
     |> fun dv -> postAugmentationPipeline.Fit(dv).Transform(dv)
 ```
 
-The only thing you have to really be aware of is the `keyOrdinality` parameter in the `MapValueToKey` transformer. If you look at the `Modelling.ipynb` notebook you will see a couple of operations which shuffle and partition the dataset. Mapping values to keys in ML.NET is usually done by value occurrence because you don't have to need complete knowledge of all possible values this way. If you can't guarantee order, though, this can lead to a different set of key mappings. It happened to me because I wasn't aware of it and I lost quite some time on debugging why my network suddenly performed so poorly. After finding out where I made the mistake I could be finally happy about the sudden 40% increase of training data on my hand. Now, that you know, you hopefully never have to run into this error yourself.
+The only thing you have to really be aware of is the `keyOrdinality` parameter in the `MapValueToKey` transformer. If you look at the `Modelling.ipynb` notebook you will see a couple of operations which shuffle and partition the dataset. Mapping values to keys in ML.NET is usually done by value occurrence. That way you don't need need to have complete knowledge of all possible values beforehand. If you can't guarantee order, though, this can lead to a different set of key mappings. It happened to me because I wasn't aware of it and I lost quite some time on debugging why my network suddenly performed so poorly. After finding out where I made the mistake, finally, I could be happy about the sudden 40% increase of training data. Now, that you know, you hopefully never have to run into this error yourself.
 
 ![Prediction engine correctly classifying a Krampus image](/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/oh_it_is_krampus.jpg)
 
@@ -226,7 +226,7 @@ Now, that there is a trained model we can save it, load it, create a prediction 
 
 ## <a name="building-an-app">Building an App</a>
 
-You can't finish an end-to-end demonstration without an end-product. For this project I thought about building a nice web application, that allows you to upload your own images or provide an image URI and classify them using some serverless component (because it is basically free to host and I'm a short on cloud-money). Because I've never used it I went with the new Docker image based AWS Lambda functions and a [Bolero](https://fsbolero.io/) (Blazor for F# people) frontend. The application isn't particularly exciting and should just demo how one might consume the model in the wild (to get away from Krampus).
+You can't finish an end-to-end demonstration without an end-product. For this project I thought about building a nice web application, that allows you to upload your own images or provide an image URI and classify them using some serverless component (because it is basically free to host and I'm short on cloud-money). Because I've never used it I went with the new Docker image based AWS Lambda functions and a [Bolero](https://fsbolero.io/) (Blazor for F# people) frontend. The application isn't particularly exciting and should just demo how one might consume the model in the wild (to get away from Krampus).
 
 ![Using the finished model in a Bolero app calling an AWS lambda function](/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/bolero_inference.gif)
 
@@ -247,7 +247,6 @@ ML Ops is the current specialized term to talk about continuous integration and 
 ### Deployment of the Inference App
 
 I was a bold, bold boy to try out the more bleeding edge of technology for this use case. I learned a lot and there is a lot of fun stuff in this little experiment but I didn't manage to fully deploy the image based AWS Lambda function. As it was just some odd behavior with the API Gateway trigger (the thing that makes the function accessible via a plain old HTTP endpoint) I'd imagine, that it wouldn't take forever but that's hard to tell. I might - one day - write a follow up post on the progress.
-
 
 ### Switching from Classification to Real Time Detection
 

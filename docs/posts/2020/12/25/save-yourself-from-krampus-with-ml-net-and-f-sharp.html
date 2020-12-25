@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta httpEquiv="Content-Language" content="en"/>
+    <title>
+      Save yourself from Krampus with ML.NET and F# | GregorBeyerleDotMe
+    </title>
+    <meta name="generator" content="Fornax"/>
+    <meta name="author" content="Gregor Beyerle"/>
+    <meta name="description" content="This is the first year I've ever contributed to the F# Advent Calendar. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget - we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus."/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:url" content="https://www.gregorbeyerle.me/posts/2020/12/25/save-yourself-from-krampus-with-ml-net-and-f-sharp"/>
+    <meta name="twitter:title" content="Save yourself from Krampus with ML.NET and F#"/>
+    <meta name="twitter:description" content="This is the first year I've ever contributed to the F# Advent Calendar. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget - we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus."/>
+    <meta name="twitter:image" content="https://www.gregorbeyerle.me/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/IsItKrampusBlogHeader.jpg"/>
+    <meta name="twitter:site" content="@GBeyerle"/>
+    <meta name="twitter:creator" content="@GBeyerle"/>
+    <meta property="og:locale" content="en"/>
+    <meta property="og:title" content="Save yourself from Krampus with ML.NET and F#"/>
+    <meta property="og:description" content="This is the first year I've ever contributed to the F# Advent Calendar. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget - we're pretty catholic down here and by tradition "moral behavior" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus."/>
+    <meta property="og:url" content="https://www.gregorbeyerle.me/posts/2020/12/25/save-yourself-from-krampus-with-ml-net-and-f-sharp"/>
+    <meta property="og:site_name" content="GregorBeyerleDotMe"/>
+    <meta property="og:image" content="https://www.gregorbeyerle.me/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/IsItKrampusBlogHeader.jpg"/>
+    <meta property="og:type" content="article"/>
+    <meta property="article:published_time" content="2020-12-25T00:00:00.0000000"/>
+    <meta property="article:modified_time" content="2020-12-25T00:00:00.0000000"/>
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"BlogPosting","headline":"Save yourself from Krampus with ML.NET and F#","dateModified":"2020-12-25T00:00:00","datePublished":"2020-12-25T00:00:00","author":{"@type":"Person","name":"Gregor Beyerle"},"description":"This is the first year I've ever contributed to the F# Advent Calendar. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget - we're pretty catholic down here and by tradition \"moral behavior\" is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus.","image":"https://www.gregorbeyerle.me/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/IsItKrampusBlogHeader.jpg","url":"https://www.gregorbeyerle.me/posts/2020/12/25/save-yourself-from-krampus-with-ml-net-and-f-sharp","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://www.gregorbeyerle.me/images/gbme_logo.png"},"name":"Gregor Beyerle"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.gregorbeyerle.me/posts/2020/12/25/save-yourself-from-krampus-with-ml-net-and-f-sharp"}}
+    </script>
+    <link rel="canonical" href="https://www.gregorbeyerle.me/posts/2020/12/25/save-yourself-from-krampus-with-ml-net-and-f-sharp"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0089f0"/>
+    <meta name="msapplication-TileColor" content="#0089f0"/>
+    <meta name="theme-color" content="#0089f0"/>
+    <link rel="stylesheet" type="text/css" href="/style/main.css" media="screen"/>
+    <link rel="preload" href="/webfonts/raleway/raleway-v17-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
+    <link rel="preload" href="/webfonts/font_awesome/fa-brands-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
+    <link rel="preload" href="/webfonts/font_awesome/fa-solid-900.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
+    <script defer="true" type="text/javascript" src="/scripts/prism.js"></script>
+    <script defer="true" type="text/javascript" src="/scripts/main.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="blogNavbar">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="blogNavbar" class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item is-tab" href="/">
+              HOME
+            </a>
+            <a class="navbar-item is-tab" href="/about">
+              ABOUT
+            </a>
+            <a class="navbar-item is-tab" href="/blog">
+              BLOG
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="container">
+        <section class="section">
+          <div class="columns">
+            <div class="column is-8 is-offset-2">
+              <article class="article">
+                <figure class="post-hero-figure">
+                  <image class="image" alt="Save yourself from Krampus with ML.NET and F#" src="/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/IsItKrampusBlogHeader.jpg"></image>
+                  <figcaption>
+                    Image by 
+                    <a href="https://unsplash.com/photos/po1ffK4lLMw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink" target="_blank" rel="noopener">
+                      Photo by Alessio Zaccaria on Unsplash
+                    </a>
+                  </figcaption>
+                </figure>
+                <hgroup>
+                  <h1 class="is-size-1">
+                    Save yourself from Krampus with ML.NET and F#
+                  </h1>
+                  <h2 class="is-size-5 published-line">
+                    Published 2020-12-25
+                  </h2>
+                </hgroup>
+                <div class="content">
+                  <p>This is the first year I've ever contributed to the <a href="https://sergeytihon.com/2020/10/22/f-advent-calendar-in-english-2020/">F# Advent Calendar</a>. For this very special occasion I thought it would make sense to give you a glimpse into the christmas traditions of my country - Austria. If you have never been to the Alpine regions of Europe you might have never heard of Krampus. Krampus is St. Nicholas' sidekick who punishes naughty children. Most christmas mythologies have some figure, that has the role of St. Nick's evil counterpart. This special character just happens to be a literal devil from the depths of hell, that beats you bloody in case you were a bad boy or girl. Having Krampus might seem a bit crass to outsiders but never forget: we're pretty catholic down here and by tradition &quot;moral behavior&quot; is taught to us from a very early age using a healthy mix of fear and violence. Good, that we live in modern times now and there is technology at our hands to keep us safe. Using F# and ML.NET we can build a complete end-to-end application, that uses machine learning to tell us if we can get something sweet from Santa or should hide away from evil Krampus.</p>
+<!--more-->
+<p>What does end-to-end even mean in this context? Usually when I go through a tutorial to learn some machine learning concept I tend to find a prepared notebook, a tidy dataset and a predefined use case. I just have to fill in the last couple of steps and by the end I hopefully got some intuition about the concept I wanted to learn in isolation. That's fine but usually whenever I then try to build a more complete app myself I find out, that I'm at a loss. How do I get to the point where I can use my new knowledge? In this post I will try to take a look at the complete process. Wish me luck 🤞</p>
+<h2><a name="the-big-picture">The Big Picture</a></h2>
+<p>This post could become a tiny bit long so if you're in a rush here is the short version. I'm just one person building a end-to-end use case around a Christmas themed childhood trauma. Doing this &quot;the conventional way&quot; would usually need a couple of different programs, roughly three programming languages and a decent amount of shell scripting to glue some things together. In theory I could do all of those things but where would be the fun in that? Rather than doing that I'll just stick to using F# and a couple of community projects. Will it be the bleeding-edge of ML research? No. Is it a thing you could use in your apps today? Absolutely. An overview of what I'll show you:</p>
+<ul>
+<li>Data acquisition using Google image search semi automatically from an interactive notebook</li>
+<li>Data preparation with the help of simple SAFE utility application</li>
+<li>Training a Convolutional Neural Network (CNN) using transfer learning with ML.NET</li>
+<li>Building an application making use of the model</li>
+</ul>
+<p>If you are interested in any particular part of the article just skip between whatever interests you. You can find all the source code and additional documentation in <a href="https://github.com/WalternativE/IsItKrampus.NET">this repository</a>. If you find something you like just take it and build something cool with it. If you have questions or feedback don't hesitate to open an issue.</p>
+<h2><a name="data-acquisition-with-canopy">Data Acquisition with Canopy</a></h2>
+<p>There are a ton of images on the internet. One of the easiest ways to get to the ones you want to have for your dataset is to just use a search engine like Google. Unfortunately, there isn't really an API (at least if you don't want to use <a href="https://developers.google.com/custom-search/v1/overview">Custom Search</a>) to use image search programmatically. As many of Google's products, it isn't super accessible to machines (I hope the irony isn't lost on them). Good thing, that there is <a href="https://lefthandedgoat.github.io/canopy/">Canopy</a>: a friendly F# API for selenium to simulate a human using a browser. This makes even JavaScript heavy applications which try to hide data from you (like Google search) pretty machine-accessible. If you want to see the complete code you can find it in the <code>DataCollection.ipynb</code> notebook in the <a href="https://github.com/WalternativE/IsItKrampus.NET">accompanying repository</a>.</p>
+<pre><code class="language-fsharp">let getImgUrls (n: int) (query: string) =
+    let searchUrl = getSearchUrl query
+    url searchUrl
+    sleep 1
+
+    let imagesToClick =
+        elements &quot;div#islmp a.wXeWr.islib.nfEiy.mM5pbd img&quot;
+
+    let toTake = min (List.length imagesToClick) n
+
+    let getImageUrl (elem : IWebElement) =
+        try
+            click elem
+            sleep 1
+
+            // nah this is not brittle and hacky as hell at all
+            elem |&gt; parent |&gt; parent |&gt; fun e -&gt; e.GetAttribute(&quot;href&quot;)
+            |&gt; fun s -&gt; s.Split('?').[1].Split('&amp;').[0].Substring(7)
+            |&gt; Uri.UnescapeDataString
+            |&gt; Some
+        with
+        | e -&gt; None
+
+    imagesToClick
+    |&gt; List.take toTake
+    |&gt; List.map getImageUrl
+    |&gt; List.filter Option.isSome
+    |&gt; List.map (Option.defaultValue String.Empty)
+
+let queryString = &quot;krampus&quot;
+let imgUrls = getImgUrls 50 queryString
+</code></pre>
+<p>Writing Canopy (or any Selenium code for that matter) is usually quite hacky. In this case I simulate user clicks on the image thumbnails because Google image search then adds the source URL to an element in the DOM. After a waiting for a bit (DOM updates aren't immediate) it is possible to grab the newly added <code>href</code> from two levels up the hierarchy. Finding out how to best access the things I want is usually an iterative process, probing around until I get lucky. I personally treat &quot;foreign&quot; web applications as hostile territory and therefore don't waste too much time on writing super stable and generalized code (as is proven by me using the mangled class names in the Google search app to query the page). It is brittle and it will be break in the future but for semi-automatic gathering of data samples it is usually good enough. In my experience it is one of the most efficient ways to get quick results - so I'm happy to live with this trade-off.</p>
+<p><img src="/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/canopy_scraper.gif" alt="Canopy getting URLs from Google Search" /></p>
+<p>Look at it go! Downloading the images from the given URLs is a bit more straight forward.</p>
+<pre><code class="language-fsharp">let downloadImage (uri: string) =
+    let req =
+        try
+            httpClient.GetAsync uri
+            |&gt; Async.AwaitTask
+            |&gt; Async.RunSynchronously
+            |&gt; Some
+        with e -&gt;
+            display $&quot;Req failed. Message: {e.Message}&quot; |&gt; ignore
+            None
+
+    match req with
+    | Some req when req.IsSuccessStatusCode &amp;&amp; (isNull req.Content |&gt; not) -&gt;
+        let bytes =
+            req.Content.ReadAsByteArrayAsync()
+            |&gt; Async.AwaitTask
+            |&gt; Async.RunSynchronously
+
+        let format = Image.DetectFormat(bytes)
+
+        let guid = Guid.NewGuid()
+
+        let ext =
+            if isNull format || isNull format.Name then
+                String.Empty else &quot;.&quot; + format.Name.ToLower()
+
+        let fileName = $&quot;{guid}{ext}&quot;
+        File.WriteAllBytes(Path.Combine(rawFolder, fileName), bytes)
+
+        Some (uri, guid, fileName)
+    | _ -&gt;
+        display $&quot;{uri}: could not be processed&quot; |&gt; ignore
+        None
+
+let downloadedImages =
+    imgUrls
+    |&gt; Array.ofList
+    |&gt; Array.map downloadImage
+</code></pre>
+<p>I love writing code like this in interactive environments. It is impure, it doesn't try to gracefully recover from failed requests, it just forces its way through the list of URLs and downloads whatever works easily. Collecting data for neural networks - at least in my experience - is a process, that doesn't really care about single data points. You generally try to get a lot of data in acceptable quality. Because I usually have to process the images further at a later stage anyway it is more important to have code, that works reliably enough, is understandable for me or others and doesn't need too much maintenance. You might see why I like F# for this process. It offers me all the tools to write sound software but it also gives me enough freedom to get &quot;pragmatic&quot; whenever I need to.</p>
+<h2><a name="a-word-on-data">A Word on Data</a></h2>
+<p>Far more important than the code to get the data is the data itself. Especially some sort of documentation how you got to it and how you processed it. You don't have to get extra fancy about it - at least in the beginning. You should get more strict if you ever build something, that has an actual impact on peoples lives, though. Might not be the hottest take of 2020 but if your work cannot be explained or reproduced (by others or by yourself) even a model working at a 99.99% accuracy is basically worthless. No pressure, though. For this app I tried to have some repeatability while keeping it really, really simple. All the image URLs and the search terms I used to get them go into one tab-separated-values (<code>.tsv</code>) file (tab separated because it is still a commonly used format and URLs don't contain tabs) while all the URLs of the files I actually managed to download - accompanied by a GUID and a file name - go into another. Those files contain enough information (at least in theory) to recreate the dataset I used further down the machine learning process. That's pretty important because I'd never be able to share the dataset without violating a million licenses 🙃</p>
+<p>Other than general reproducibility the composition of the dataset is also pretty important. You thought the magic would lie in the the algorithms, didn't you? Well, they are pretty important but whatever you feed to the big-brain-very-smart-piece-of-software has a pretty high impact. How much examples do I have for each class? How similar are the backgrounds and general color schemes in each class? Do I have some systematic errors (e.g. all images are tilted by 15 degrees to the right) in one class which could lead the model to generalize something that has absolutely nothing to do with the dataset? Could it be, that my dataset has some inherent bias? I personally tried to build a balanced dataset (samples per class), have a varied depiction of different Krampus types (to generalize the special vibe of violence and catholic judgement), a good mix of Santa samples (to capture the general feel of jolliness) and a wide array of different people. I especially tried to have at least a fair amount of people with fur clothing (because Krampus is kind of furry), beards (as I said - furry) and people of color. I chose to be extra carful with the last set of images because many depictions of Krampus have a darker skin color than the majority of people living in the Alps. Forgetting about a potential source of misclassifications like that usually leads to a lot of embarrassing results in the long run.</p>
+<p>That's a lot of thought about data, that has absolutely nothing to with neither programming nor math. Who would have guessed, that one of the most important aspects of building a Krampus detector is non-technical. I really want to hammer home the importance of having a set of people with diverse backgrounds and experiences on your team whenever you set out to &quot;make a machine intelligent&quot;. I try to think a lot about this - even for a silly app like this one. I'm also 100% sure, that I missed a huge amount of possible biases in my dataset, because I'm just one guy with a limited amount of ways to see the world. Phew, what a serious topic. Now, back to the Krampus classifier.</p>
+<h2><a name="data-preparation">Data Preparation</a></h2>
+<p>I imagine that most people (who would read such an article) already know this but machine learning algorithms are pretty picky about the data they consume. I plan to use a CNN based on the <a href="https://www.paperswithcode.com/method/inception-v3">Inception v3</a> architecture. This means, that all images I want to use for training need to have fixed dimensions (299 by 299 pixels) and a label (Krampus, Santa or Other). The &quot;easiest&quot; way would be to just use a label which fits the search terms used to get to the images and resize them regardless of their current format or content. That's quick to automate but - unfortunately - pretty bad for the data quality. Just imagine all the mislabeled (bad search results) and badly distorted images. Going through all the images myself, labelling and cropping them to get the most out of my data is one of the most impactful tasks to increase the performance of my classifier. Unfortunately this is a lot of work. Cropping a couple hundred images using GIMP, writing down labels and documenting the bounding boxes used for the crop is a lot of tedious and error prone work. Now imagine scaling that process to two people, or three, or a dozen. That's not fun at all! Good, that it isn't particularly hard (compared to similar alternatives) to write an app to make this process far more efficient.</p>
+<p>One of the coolest developments in the F# community is the <a href="https://safe-stack.github.io/">SAFE Stack</a>, an opinionated template using a set of libraries, that allows you to write full-stack web applications. Usually, this is the domain of startups and other enterprises, but researchers can make use of this as well. At <a href="https://youtu.be/YpX5yhGrJkw?t=1814">Fable Conf 2018 Evelina Gabasova</a> demoed an application used to preprocess news articles for further usage in fake news research. It was written using the SAFE stack, lived through multiple iterations and made users as well as researches pretty happy. Two years after that, the SAFE stack is even better suited for this sort of task. Libraries like <a href="https://github.com/Zaid-Ajaj/Feliz">Feliz</a> greatly improve the developer experience while writing web UIs and projects like <a href="https://github.com/Zaid-Ajaj/Fable.Remoting">Fable.Remoting</a> make it possible to get rid of almost all boilerplate code when creating client-sever applications. When I want to work on straight-forward web applications, I'm hard pressed to find something that makes me more productive than that.</p>
+<p><img src="/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/data_prep.gif" alt="data preparation application in action" /></p>
+<p>And as you can see it doesn't really take much to get where I wanted to go anyway. A simple UI, a couple of buttons and an element to create a bounding box for a crop. Batteries came basically included, only the cropping element was custom made and even that was achieved in almost no time by writing a Fable wrapper for the <a href="https://github.com/ricardo-ch/react-easy-crop">React Easy Crop</a> component. The remote-procedure-call (RPC) API just included serving up random, unprocessed images, throwing away unfit images and receiving instructions to correctly apply  crops (using <a href="https://github.com/SixLabors/ImageSharp">ImageSharp</a> - the best .NET cross-platform image processing library out there) and save the labels. If you want to look at my terrible code you'll find it in the the <code>IsItKrampus.NET.DataSet.*</code> projects in the <a href="https://github.com/WalternativE/IsItKrampus.NET">accompanying repository</a>.</p>
+<h2><a name="training-the-model">Training the Model</a></h2>
+<p>Training the model is usually the step which interests people the most. It's also the place where I (and many practitioners if I'm not mistaken) spend the least amount of time. Not because I don't like it (I love it - even though I'm still basically at the very beginning of my journey) but because I usually use an existing set of tools rather than coming up with my own stuff. For this use-case I already know, that I want to use a CNN, I already know the architecture (Inception v3) and I already know I want to do it in .NET. <a href="https://dotnet.microsoft.com/apps/machinelearning-ai/ml-dotnet">ML.NET</a> is an open source library developed by Microsoft which allows me to do exactly that.</p>
+<p>ML.NET supports a couple of scenarios for image classification. You could take a custom model trained in Azure Cognitive Services and use ML.NET's Tensorflow API to consume it. You could use an ONNX (an open standard to represent machine learning models) model and use it to classify your images. Or, you could use transfer learning on top of an included pre-trained model. The last option allows you to train your model on your own machine while saving countless hours of training time (given that the pre-trained network and its pre-learned labels fits to your use case). Luis Quintanilla already wrote <a href="https://www.luisquintanilla.me/2020/12/14/image-classification-mlnet-fsadvent2020/">a long form article</a> on image transfer learning using ML.NET for the F# Advent Calendar so I'll just focus on the tweaks I used to teach my computer how to alert me of Krampus.</p>
+<p>One of the topics I haven't seen discussed yet in the ML.NET space is how to use data augmentation when using transfer learning. Data augmentation is a pretty nifty trick to increase the amount of data you have (by reusing samples you already prepared) and to help your network generalize better (by adding variation to your data like flipped or discolored images). For the lack of an existing transformer (and my lack of knowledge of how to write a good ML.NET transformer) I can't do this within the ML.NET pipeline. This isn't the biggest of problems as ML.NET allows me to take any <code>IDataView</code> and create a sequence out of it.</p>
+<pre><code class="language-fsharp">[&lt;CLIMutable&gt;]
+type ImageDataAfterPreprocessing =
+  { ImagePath: string
+    Image: byte[]
+    Label: string
+    LabelAsKey: UInt32 }
+
+let preprocessedImagesTrainSet =
+    mlContext.Data.CreateEnumerable&lt;ImageDataAfterPreprocessing&gt;(trainSet,
+                                                                 reuseRowObject = false)
+</code></pre>
+<p>With this sequence of images, a couple of functions and ImageSharp, I can define a simple augmentation pipeline.</p>
+<pre><code class="language-fsharp">let turnRight (imgBytes: byte[]) =
+    use img = Image.Load(imgBytes)
+
+    let newImage = img.Clone(fun img -&gt; img.Rotate(90f) |&gt; ignore)
+
+    use ms = new MemoryStream()
+    newImage.SaveAsJpeg(ms)
+
+    ms.ToArray()
+
+let turnLeft (imgBytes: byte[]) =
+    ... omitted for brevity ...
+
+let flipHorizontally (imgBytes: byte[]) =
+    ... omitted for brevity ...
+
+let grayScale (imgBytes: byte[]) =
+    ... omitted for brevity ...
+
+let randomlyAugment (augmentationBase: ImageDataAfterPreprocessing seq) (percentage: float) (augmentation: byte[] -&gt; byte[]) =
+    let randomIndexesToAugment =
+        let n = Seq.length augmentationBase
+        Seq.init (int ((float n) * percentage)) (fun _ -&gt; rnd.Next(0, n - 1))
+
+    let pick (idxs: int seq) (s: seq&lt;'a&gt;) =
+        let arr = Array.ofSeq s
+        seq { for idx in idxs -&gt; arr.[idx] }
+
+    let augmentedImages =
+        augmentationBase
+        |&gt; pick randomIndexesToAugment
+        |&gt; Seq.map (fun img -&gt; { img with Image = augmentation img.Image })
+
+    augmentedImages
+
+let augmentedImages =
+    [ turnRight; turnLeft; flipHorizontally; grayScale ]
+    |&gt; Seq.map (randomlyAugment preprocessedImagesTrainSet 0.1)
+    |&gt; Seq.concat
+</code></pre>
+<p>As usual with the code I write in notebooks it has a lot of room for improvement (just imagine using this on ultra large sequences - yikes) but it gets the job done for now. What I do with those snippets of code is:</p>
+<ul>
+<li>Define a couple of augmentation functions which create manipulated copies of images</li>
+<li>Apply those augmentations to a randomly picked subset of all training images</li>
+<li>Collect all images in a final sequence</li>
+</ul>
+<p>Getting back to an <code>IDataView</code> ready for training can be done using the same APIs used to create it in the first place.</p>
+<pre><code class="language-fsharp">let postAugmentationPipeline =
+    mlContext.Transforms.Conversion.MapValueToKey(inputColumnName = &quot;Label&quot;,
+                                                  outputColumnName = &quot;LabelAsKey&quot;,
+                                                  keyOrdinality = ValueToKeyMappingEstimator.KeyOrdinality.ByValue)
+
+let augmentedTrain =
+    Seq.concat [ preprocessedImagesTrainSet; augmentedImages ]
+    |&gt; fun dataset -&gt; mlContext.Data.LoadFromEnumerable(dataset)
+    |&gt; fun dv -&gt; mlContext.Data.ShuffleRows(dv)
+    |&gt; fun dv -&gt; postAugmentationPipeline.Fit(dv).Transform(dv)
+</code></pre>
+<p>The only thing you have to really be aware of is the <code>keyOrdinality</code> parameter in the <code>MapValueToKey</code> transformer. If you look at the <code>Modelling.ipynb</code> notebook you will see a couple of operations which shuffle and partition the dataset. Mapping values to keys in ML.NET is usually done by value occurrence. That way you don't need need to have complete knowledge of all possible values beforehand. If you can't guarantee order, though, this can lead to a different set of key mappings. It happened to me because I wasn't aware of it and I lost quite some time on debugging why my network suddenly performed so poorly. After finding out where I made the mistake, finally, I could be happy about the sudden 40% increase of training data. Now, that you know, you hopefully never have to run into this error yourself.</p>
+<p><img src="/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/oh_it_is_krampus.jpg" alt="Prediction engine correctly classifying a Krampus image" /></p>
+<p>Now, that there is a trained model we can save it, load it, create a prediction engine and look at an example image. Oh no, it is Krampus! Quick, run!</p>
+<h2><a name="building-an-app">Building an App</a></h2>
+<p>You can't finish an end-to-end demonstration without an end-product. For this project I thought about building a nice web application, that allows you to upload your own images or provide an image URI and classify them using some serverless component (because it is basically free to host and I'm short on cloud-money). Because I've never used it I went with the new Docker image based AWS Lambda functions and a <a href="https://fsbolero.io/">Bolero</a> (Blazor for F# people) frontend. The application isn't particularly exciting and should just demo how one might consume the model in the wild (to get away from Krampus).</p>
+<p><img src="/images/posts/save-yourself-from-krampus-with-ml-net-and-f-sharp/bolero_inference.gif" alt="Using the finished model in a Bolero app calling an AWS lambda function" /></p>
+<p>It works! At this point we can classify images from the safety of a nice web application. It's nothing special, really, but the interested reader might find some special bits in the source code. The <code>IsItKrampus.NET.App.*</code> folders in the <a href="https://github.com/WalternativE/IsItKrampus.NET">accompanying repository</a> contain all the bits necessary to work with this app and its backing Lambda function.</p>
+<h2><a name="where-to-go-from-here">Where To Go From Here</a></h2>
+<p>When I set out to work on this project I wanted to do a bit more than I finally accomplished. Shocking, isn't it? Things I'd have on my list if I had more time to work right now would be:</p>
+<h3>Automation</h3>
+<p><a href="https://fake.build/">FAKE</a> is a F# build runner. It runs using F# script files which means, that you can pretty much every .NET library in your build and deploy scripts. No YAML, no special language - just good old honest F#. On this basis I could imagine incorporating ML.NET specific retraining and model deployment processes. FAKE plays well with every CI, that allows to execute dotnet tools (or arbitrary shell commands) so it is easy to integrate into virtually any CI/CD environment.</p>
+<h3>MLOps</h3>
+<p>ML Ops is the current specialized term to talk about continuous integration and continuous deployment but for machine learning related tasks. Alex Slotte has been writing <a href="https://github.com/aslotte/MLOps.NET">MLOps.NET</a> to tackle exactly this for ML.NET based models. It helps you to track experiments, log metrics, store versioned models and prepare deployments.</p>
+<h3>Deployment of the Inference App</h3>
+<p>I was a bold, bold boy to try out the more bleeding edge of technology for this use case. I learned a lot and there is a lot of fun stuff in this little experiment but I didn't manage to fully deploy the image based AWS Lambda function. As it was just some odd behavior with the API Gateway trigger (the thing that makes the function accessible via a plain old HTTP endpoint) I'd imagine, that it wouldn't take forever but that's hard to tell. I might - one day - write a follow up post on the progress.</p>
+<h3>Switching from Classification to Real Time Detection</h3>
+<p>Image classification is nice and relatively easy to handle with ML.NET. Unfortunately it isn't really build for real time video feeds and it doesn't really tell you how many &quot;Krampus instances&quot; are around you and where you would find them. Other network architectures like the famed <a href="https://arxiv.org/abs/1506.02640">YOLO</a> are much better fits for this. Unfortunately ML.NET doesn't offer a way to do custom training for this network type. Maybe it will get added in the future, maybe it won't. In any case it might be possible to build something from scratch using <a href="https://diffsharp.github.io/">DiffSharp</a> or <a href="https://github.com/SciSharp/TensorFlow.NET">TensorFlow.NET</a>. I could also just use Python...but that would be boring.</p>
+
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="side-navigation">
+        <aside class="menu">
+          <div class="icon-navigation">
+            <a href="#top" class="icon-navigation__link" aria-label="to top">
+              <i class="fas fa-chevron-up" aria-hidden="true"></i>
+            </a>
+            <a href="/posts/2020/11/30/writing-formatters-for-dotnet-interactive" class="icon-navigation__link" aria-label="next article">
+              <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </a>
+          </div>
+          <ul class="menu-list">
+            <li>
+              <a href="#the-big-picture">
+                The Big Picture
+              </a>
+            </li>
+            <li>
+              <a href="#data-acquisition-with-canopy">
+                Data Acquisition with Canopy
+              </a>
+            </li>
+            <li>
+              <a href="#a-word-on-data">
+                A Word on Data
+              </a>
+            </li>
+            <li>
+              <a href="#data-preparation">
+                Data Preparation
+              </a>
+            </li>
+            <li>
+              <a href="#training-the-model">
+                Training the Model
+              </a>
+            </li>
+            <li>
+              <a href="#building-an-app">
+                Building an App
+              </a>
+            </li>
+            <li>
+              <a href="#where-to-go-from-here">
+                Where To Go From Here
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-offset-2 content">
+            <p>
+              © 2020 Gregor Beyerle | 
+              <a href="/imprint">
+                 Imprint 
+              </a>
+               | Made with 🧡 and 
+              <a href="https://github.com/ionide/Fornax" target="_blank" rel="noopener">
+                Fornax
+              </a>
+               | 
+              <a href="#top">
+                To Top
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
